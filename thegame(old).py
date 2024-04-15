@@ -21,3 +21,6 @@ if choices == "1":
     choices = input(">")
     if choices == "yes":
         print("You here the door slam shut behind you and a sound of water slowly filling the room you're currently standing in")
+        print("What do you do?\n1. Turn around and open the door\n2. Tap the walls around you in hope to find a secret exit")
+        print("1/2")
+        choices = input(">")
