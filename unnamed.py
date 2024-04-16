@@ -35,12 +35,13 @@ class Player:
                 print("You cannot do that...")
         elif item_name == "letter":
             print("You pick up the letter and start to read:\nIt's been weeks, no ages since I last slept. If you read this, you need to leave now. This place is driving me insane. I haven't figured out the way out yet, but I think it has something to do with the lever in the other room...")
-
-def secret_room():
+    
+def secret_room(self):
     print("You move to the Door room.")
     player = Player(rooms["the second Door room"])
     print("You also see something right ahead of you that was not there before: an opening in the wall.")
     command = input("What do you want to do? ")
+
     while True:
         direction = command.split()[1]
 
@@ -51,6 +52,7 @@ def secret_room():
             player.interact(item)
         else:
             print("You cannot do that...")
+
 
 def main():
     player = Player(rooms["the Door room"])
