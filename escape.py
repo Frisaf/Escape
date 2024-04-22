@@ -17,7 +17,7 @@ locations = {
     "the second Door room": Location("the Door room", "In front of you, there are two doors: one on your right side and one on your left side. They look unlocked. You also see something right ahead of you that was not there before: an opening in the wall.", {"right": "Room one", "left": "Room two", "forwards": "Hidden room"}),
     "Hidden room": Location("the Hidden room", "The room is dark, and you barely see a thing. From what you can tell, the 'room' consists of a corridor of which you cannot see the end of.", {"forwards": "Corridor", "backwards": "the second Door room"}),
     "Corridor": Location("the corridor", "The corridor is barely lit up and you cannot see much. As you continue walking, you reach a point where the corridor splits in two. One way goes left and the other goes right.", {"backwards": "Hidden room", "right": "Puzzle room", "left": "Wizard room"}),
-    "Puzzle room": Location("the Puzzle room", "You turn right and reach a room well lit up with torches on the wall. On the floor, there are tiles in different shapes. The tiles are placed in a six by six grid, and your gut feeling tells you that one step in the wrong direction can lead to death. There is a skeleton at the middle of the room. Right ahead of you is a door, but you need to reach it first.", {"forwards": "Correct tile 1", "backwards": "Corridor"}), # SAVE LOCATION
+    "Puzzle room": Location("the Puzzle room", "You turn right and reach a room well lit up with torches on the wall. On the floor, there are tiles in different shapes. The tiles are placed in a six by six grid, and your gut feeling tells you that one step in the wrong direction can lead to death. There is a skeleton at the middle of the room. Right ahead of you is a door, but you need to reach it first. There is also a sheet of paper on the floor.", {"forwards": "Correct tile 1", "backwards": "Corridor"}), # SAVE LOCATION
     "Final door": Location("the door", "You successfully finished the puzzle, and managed to not end up like the unlucky guy at the middle of the room.\n\nThe door in front of you is closed.", {"backwards": "Correct tile 16"}),
     "Final door opened": Location("You walk thorugh the door and proceed to climb the stairs.", f"As you walk, you start to smell the wonderful smell of grass, and forest, and nature. You are only one step from freedom. One more step. Now you are free.\n\nCONGRATULATIONS {user_name}! You completed the game! Did you know there are more than one ending? Play the game again to find out how it could also have ended...", {}),
     ### PUZZLE ROOM ITEMS ###
@@ -37,6 +37,10 @@ locations = {
     "Correct tile 14": Location("a new tile", "", {"forwards": "Death", "left": "Correct tile 15", "backwards": "Correct tile 13"}),
     "Correct tile 15": Location("a new tile", "", {"forwards": "Correct tile 16", "left": "Death", "backwards": "Correct tile 14"}),
     "Correct tile 16": Location("a new tile", "", {"forwards": "Death", "right": "Final door", "left": "Death", "backwards": "Correct tile 15"}),
+    ### WIZARD ROOM ITEMS ###
+    "Wizard room": Location("the left", "As you continue to walk in that direction, you eventually reach a small but well lit room. There are vials and papers spread all around the tables that stand alongside the walls, and in the middle stands a tall man with a long gray beard. He is wearing a long purple robe that almost touches the ground and there is a tall, cone shaped hat on his head.\n'Oh great', the man says. 'I've waited for someone new to step into my dungeon... Or I mean, you want to get out of here, don't you?'\nNARRATOR: You have two choices here: yes or no. Type 'move yes' or 'move no' in your terminal to continue. If you don't want to encounter this man just yet, you can type 'move backwards' to go back to the crossroad.", {"yes": "Answer yes", "no": "Answer no", "backwards": "Corridor"}),
+    "Answer yes": Location("the man and say:", f"'Yes, I really want to get out of here. Do you know where the exit is?'\nThe man looks at you, and it looks like he is on the verge to laughing.\n'You fool!' he says. 'Did you really think I, the great wizard Magico would let such a precious human escape? No, you came here for a reason, and that reason is to serve me forever!'\nThose words are the last you here before you see a bright light coming out of his hands. And then everything is just foggy.\n\nYOU COMPLETED THE GAME! Good job, {user_name}, you completed the game. But to what cost? Did you know that there are several endings. Play again to find out what the other ones are...", {}),
+    "Answer no": Location("the man and say:", f"'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe man looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, the man has cast a spell upon you, and everything after that is incredibly foggy...\n\nYOU COMPLETED THE GAME! Good job, {user_name}, you completed the game. But to what cost? Did you know that there are several endings. Play again to find out what the other ones are...", {}),
     ### DEATH ###
     "Death": Location("a new tile", "You hear a sudden click and then a loud bang. Then, everything turns black...\nGAME OVER! Type 'move backwards' to restart from the last save location.", {"backwards": "Puzzle room"})
 }
@@ -50,7 +54,7 @@ class Traveller:
             next_location_name = self.current_location.directions[direction]
             next_location = locations[next_location_name]
             self.current_location = next_location
-            print(f"You move to {next_location.name}")
+            print(f"You walk to {next_location.name}")
         else:
             print("You cannot go that way...")
     
@@ -73,6 +77,25 @@ class Traveller:
                 return
             else:
                 print("You cannot do that...")
+        
+        elif item_name == "paper":
+            print("You pick up the paper, and you see that it seems to contain a map of some sort.")
+            print("""\
+            |---|---|---|---|---|---|
+            |   |   |   |   |   |   |
+            |---|---|---|---|---|---|
+            |   | x | x | x |   |   |
+            |---|---|---|---|---|---|
+       -->  | x | x | O | x |   | x | -->
+            |---|---|---|---|---|---|
+            |   |   | x | x |   | x |
+            |---|---|---|---|---|---|
+            |   |   | x |   | x | x |
+            |---|---|---|---|---|---|
+            |   |   | x | x | x |   |
+            |---|---|---|---|---|---|
+
+""")
 
 def good_end():
     player = Traveller(locations["Final door opened"])
@@ -81,7 +104,7 @@ def good_end():
     
 def secret_room():
     player = Traveller(locations["the second Door room"])
-    print("You move to the Door room.")
+    print("You walk to the Door room.")
 
     while True:
         print(player.current_location.description)
