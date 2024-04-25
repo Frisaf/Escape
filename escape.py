@@ -60,12 +60,13 @@ class Traveller:
     
     def interact(self, item_name):
         if item_name == "lever":
-            print("You pull the lever and hear a large thud somewhere else...")
-            choice = input("What do you want to do? ")
-            if choice == "move backwards":
-                secret_room()
-            else:
-                print("You cannot do that...")
+            while True:
+                print("You pull the lever and hear a large thud somewhere else...")
+                choice = input("What do you want to do? ")
+                if choice == "move backwards":
+                    secret_room()
+                else:
+                    print("You cannot do that...")
         elif item_name == "letter":
             print("You pick up the letter and start to read:\nIt's been weeks, no ages since I last slept. If you read this, you need to leave now. This place is driving me insane. I haven't figured out the way out yet, but I think it has something to do with the lever in the other room...")
 
