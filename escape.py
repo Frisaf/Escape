@@ -71,13 +71,14 @@ class Traveller:
             print("You pick up the letter and start to read:\nIt's been weeks, no ages since I last slept. If you read this, you need to leave now. This place is driving me insane. I haven't figured out the way out yet, but I think it has something to do with the lever in the other room...")
 
         elif item_name == "door":
-            print("You carefully turn the door knob and the door opens with a squeeking noise. There is now a long stair case in front of you. As you look at the top, you catch a glimpse of green grass.")
-            choice = input("What do you want to do? ")
-            if choice == "move forwards":
-                good_end()
-                return
-            else:
-                print("You cannot do that...")
+            while True:
+                print("You carefully turn the door knob and the door opens with a squeeking noise. There is now a long stair case in front of you. As you look at the top, you catch a glimpse of green grass.")
+                choice = input("What do you want to do? ")
+                if choice == "move forwards":
+                    good_end()
+                    return
+                else:
+                    print("You cannot do that...")
         
         elif item_name == "paper":
             print("You pick up the paper, and you see that it seems to contain a map of some sort.")
