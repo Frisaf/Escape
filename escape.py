@@ -95,7 +95,7 @@ class Traveller:
             |   |   | x | x | x |   |
             |---|---|---|---|---|---|
 
-""")
+                """)
 
 def good_end():
     player = Traveller(locations["Final door opened"])
@@ -111,14 +111,19 @@ def secret_room():
         command = input("What do you want to do? ")
 
         if command.startswith("move"):
-            direction = command.split()[1]
-            player.move(direction)
+            try:
+                direction = command.split()[1]
+                player.move(direction)
+            except IndexError:
+                print("That is not a valid command. Did you perhaps have a typo?")
         elif command.startswith("interact"):
-            item = command.split()[1]
-            player.interact(item)
+            try:
+                item = command.split()[1]
+                player.interact(item)
+            except IndexError:
+                print("That is not a valid command. Did you perhaps have a typo?")
         else:
             print("You cannot do that...")
-
 
 def starter():
     player = Traveller(locations["the Door room"])
@@ -128,11 +133,17 @@ def starter():
         command = input("What do you want to do? ")
 
         if command.startswith("move"):
-            direction = command.split()[1]
-            player.move(direction)
+            try:
+                direction = command.split()[1]
+                player.move(direction)
+            except IndexError:
+                print("That is not a valid command. Did you perhaps have a typo?")
         elif command.startswith("interact"):
-            item = command.split()[1]
-            player.interact(item)
+            try:
+                item = command.split()[1]
+                player.interact(item)
+            except IndexError:
+                print("That is not a valid command. Did you perhaps have a typo?")
         else:
             print("You cannot do that...")
 
