@@ -1,0 +1,9 @@
+How should the combat system work?
+- Dice rolling?
+    - Random damage based on D&D?
+        import random
+
+How should the program handle HP?
+    In a class?
+
+There is one enemy: The Wizard
