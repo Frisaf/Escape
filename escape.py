@@ -1,3 +1,6 @@
+import random
+import combat as combat
+
 user_name = input("Welcome to 'Escape!'! Let's start with your name, traveller.\nWhat's your name? ")
 print(f"Great! Welcome, {user_name}! Before we start the game, there are a few things that you need to know.\nFirst of all, there are two types of commands: interact and move. The interact command will make you interact with things in the room. For example, if you want to interact with the apple you would type 'interact apple' in the terminal and if you want to move right you would type 'move right' in the terminal. Moving backwards will always lead you to the previous room if nothing else is stated.\nBut with that, let's move on with the game, shall we?")
 print("")
@@ -38,9 +41,7 @@ locations = {
     "Correct tile 15": Location("a new tile", "", {"forwards": "Correct tile 16", "left": "Death", "backwards": "Correct tile 14"}),
     "Correct tile 16": Location("a new tile", "", {"forwards": "Death", "right": "Final door", "left": "Death", "backwards": "Correct tile 15"}),
     ### WIZARD ROOM ITEMS ###
-    "Wizard room": Location("the left", "As you continue to walk in that direction, you eventually reach a small but well lit room. There are vials and papers spread all around the tables that stand alongside the walls, and in the middle stands a tall man with a long gray beard. He is wearing a long purple robe that almost touches the ground and there is a tall, cone shaped hat on his head.\n'Oh great', the man says. 'I've waited for someone new to step into my dungeon... Or I mean, you want to get out of here, don't you?'\nNARRATOR: You have two choices here: yes or no. Type 'move yes' or 'move no' in your terminal to continue. If you don't want to encounter this man just yet, you can type 'move backwards' to go back to the crossroad.", {"yes": "Answer yes", "no": "Answer no", "backwards": "Corridor"}),
-    "Answer yes": Location("the man and say:", f"'Yes, I really want to get out of here. Do you know where the exit is?'\nThe man looks at you, and it looks like he is on the verge to laughing.\n'You fool!' he says. 'Did you really think I, the great wizard Magico would let such a precious human escape? No, you came here for a reason, and that reason is to serve me forever!'\nThose words are the last you here before you see a bright light coming out of his hands. And then everything is just foggy.\n\nYOU COMPLETED THE GAME! Good job, {user_name}, you completed the game. But to what cost? Did you know that there are several endings. Play again to find out what the other ones are...", {}),
-    "Answer no": Location("the man and say:", f"'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe man looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, the man has cast a spell upon you, and everything after that is incredibly foggy...\n\nYOU COMPLETED THE GAME! Good job, {user_name}, you completed the game. But to what cost? Did you know that there are several endings. Play again to find out what the other ones are...", {}),
+    "Wizard room": Location("the left", "As you continue to walk in that direction, you eventually reach a small but well lit room. There are vials and papers spread all around the tables that stand alongside the walls, and in the middle stands a tall man with a long gray beard. He is wearing a long purple robe that almost touches the ground and there is a tall, cone shaped hat on his head.\n'Oh great', the man says. 'I've waited for someone new to step into my dungeon... Or I mean, you want to get out of here, don't you?'\nNARRATOR: You have two choices here: yes or no. Type 'interact yes' or 'interact no' in your terminal to continue. If you don't want to encounter this man just yet, you can type 'move backwards' to go back to the crossroad.", {"yes": "Answer yes", "no": "Answer no", "backwards": "Corridor"}),
     ### DEATH ###
     "Death": Location("a new tile", "You hear a sudden click and then a loud bang. Then, everything turns black...\nGAME OVER! Type 'move backwards' to restart from the last save location.", {"backwards": "Puzzle room"})
 }
@@ -98,11 +99,21 @@ class Traveller:
             |---|---|---|---|---|---|
 
                 """)
+            
+        elif item_name == "yes":
+            print("You walk to the man and say:\n'Yes, I really want to get out of here. Do you know where the exit is?'\nThe man looks at you, and it looks like he is on the verge to laughing.\n'You fool!' he says. 'Did you really think I, the great wizard Magico would let such a precious human escape? No, you came here for a reason, and that reason is to serve me forever!'\n\nThe Wizard initiates a fight! You will go through five rounds where you roll a d20. Every round will become progressively harder. If you lose more than two rounds in a row you are dead!")
+            combat.combat()
+
+        elif item_name == "no":
+            death_end()
 
 def good_end():
     player = Traveller(locations["Final door opened"])
     print(player.current_location.name)
     print(player.current_location.description)
+
+def death_end():
+    print(f"You walk to the man and say:\n'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe man looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, the man has cast a spell upon you, and everything after that is incredibly foggy...\n\nYOU COMPLETED THE GAME! Good job, {user_name}, you completed the game. But to what cost? Did you know that there are several endings. Play again to find out what the other ones are...")
     
 def secret_room():
     player = Traveller(locations["the second Door room"])
@@ -130,6 +141,8 @@ def secret_room():
 def starter():
     player = Traveller(locations["the Door room"])
 
+#    combat.combat()
+
     while True:
         print(player.current_location.description)
         command = input("What do you want to do? ")
@@ -148,5 +161,5 @@ def starter():
                 print("That is not a valid command. Did you perhaps have a typo?")
         else:
             print("You cannot do that...")
-
+            
 starter()
