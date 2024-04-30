@@ -61,7 +61,7 @@ class Traveller:
             self.current_location = next_location
             print(f"You walk to {next_location.name}")
         else:
-            print("You cannot go that way...")
+            print(f"{YELLOW}You cannot go that way...{RESET}")
     
     def interact(self, item_name):
         if item_name == "lever":
@@ -72,13 +72,13 @@ class Traveller:
                     secret_room()
                     break
                 else:
-                    print("You cannot do that...")
+                    print(f"{YELLOW}You cannot do that...{RESET}")
         elif item_name == "letter":
             print("You pick up the letter and start to read:\nIt's been weeks, no ages since I last slept. If you read this, you need to leave now. This place is driving me insane. I haven't figured out the way out yet, but I think it has something to do with the lever in the other room...")
 
         elif item_name == "door":
             while True:
-                print("You carefully turn the door knob and the door opens with a squeeking noise. There is now a long stair case in front of you. As you look at the top, you catch a glimpse of green grass.")
+                print(f"You carefully turn the door knob and the door opens with a squeeking noise. There is now a long stair case in front of you. As you look at the top, you catch a glimpse of {GREEN}green grass.{RESET}")
                 choice = input("What do you want to do? ")
                 if choice == "move forwards":
                     good_end()
@@ -135,7 +135,7 @@ def secret_room():
                 direction = command.split()[1]
                 player.move(direction)
             except IndexError:
-                print("That is not a valid command. Did you perhaps have a typo?")
+                print(f"{YELLOW}That is not a valid command. Did you perhaps have a typo?{RESET}")
         elif command.startswith("interact"):
             try:
                 item = command.split()[1]
