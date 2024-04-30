@@ -67,12 +67,12 @@ class Traveller:
         if item_name == "lever":
             while True:
                 print("You pull the lever and hear a large thud somewhere else...")
-                choice = input("What do you want to do? ")
+                choice = input(f"{YELLOW}What do you want to do?{RESET} ")
                 if choice == "move backwards":
                     secret_room()
                     break
                 else:
-                    print(f"{YELLOW}You cannot do that...{RESET}")
+                    print(f"{GREEN}You cannot do that...{RESET}")
         elif item_name == "letter":
             print("You pick up the letter and start to read:\nIt's been weeks, no ages since I last slept. If you read this, you need to leave now. This place is driving me insane. I haven't figured out the way out yet, but I think it has something to do with the lever in the other room...")
 
@@ -84,7 +84,7 @@ class Traveller:
                     good_end()
                     break
                 else:
-                    print("You cannot do that...")
+                    print(f"{GREEN}You cannot do that...{RESET}")
         
         elif item_name == "paper":
             print("You pick up the paper, and you see that it seems to contain a map of some sort.")
@@ -128,42 +128,42 @@ def secret_room():
 
     while True:
         print(player.current_location.description)
-        command = input("What do you want to do? ")
+        command = input(f"{YELLOW}What do you want to do?{RESET} ")
 
         if command.startswith("move"):
             try:
                 direction = command.split()[1]
                 player.move(direction)
             except IndexError:
-                print(f"{YELLOW}That is not a valid command. Did you perhaps have a typo?{RESET}")
+                print(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
         elif command.startswith("interact"):
             try:
                 item = command.split()[1]
                 player.interact(item)
             except IndexError:
-                print("That is not a valid command. Did you perhaps have a typo?")
+                print(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
         else:
-            print("You cannot do that...")
+            print(f"{GREEN}You cannot do that...{RESET}")
 
 def starter():
     player = Traveller(locations["the Door room"])
 
     while True:
         print(player.current_location.description)
-        command = input("What do you want to do? ")
+        command = input(f"{YELLOW}WWhat do you want to do?{RESET} ")
 
         if command.startswith("move"):
             try:
                 direction = command.split()[1]
                 player.move(direction)
             except IndexError:
-                print("That is not a valid command. Did you perhaps have a typo?")
+                print(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
         elif command.startswith("interact"):
             try:
                 item = command.split()[1]
                 player.interact(item)
             except IndexError:
-                print("That is not a valid command. Did you perhaps have a typo?")
+                print(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
         else:
             print("You cannot do that...")
 
@@ -187,7 +187,7 @@ def combat_r2win():
         result = random.randint(1, sides)
         print(f"{YELLOW}You rolled a {result}{RESET}")
         if result < 10:
-            print(f"You kick the man in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious blue mist flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in green grass and you can feel the hot sun shine on your face.\n\n{YELLOW}CONGRATS! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
+            print(f"You kick the man in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious blue mist flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in green grass and you can feel the hot sun shine on your face.\n\n{YELLOW}CONGRATS {RED}{user_name}{RESET}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
             break
         else:
             print("The man sees you hesitating and casts a spell on you! Watch out, one more fail and you will have zero to no chance to get out of here!")
