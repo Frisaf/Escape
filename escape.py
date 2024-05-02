@@ -1,4 +1,6 @@
 import random
+import sys
+import os
 
 YELLOW = "\033[33m"
 RED    = "\033[31m"
@@ -6,11 +8,10 @@ GREEN  = "\033[32m"
 RESET  = "\033[0m"
 CYAN   = "\033[36m"
 
-def intro():
-    user_name = input(f"{RED}NARRATOR:{RESET}{YELLOW}Welcome to 'Escape!'! Let's start with your name, traveller.\nWhat's your name? {RESET}")
-    print(f"{RED}NARRATOR:{RESET}{YELLOW}Great! Welcome, {user_name}! Before we start the game, there are a few things that you need to know.\nFirst of all, there are two types of commands: interact and move. The interact command will make you interact with things in the room. For example, if you want to interact with the apple you would type 'interact apple' in the terminal and if you want to move right you would type 'move right' in the terminal. Moving backwards will always lead you to the previous room if nothing else is stated. Items that you can interact with are written in cyan.\nBut with that, let's move on with the game, shall we?{RESET}")
-    print("")
-    print("You wake up on a dusty room. You don't remember what happened last night. How did you even end up here? All you know is that you have to get out, and that fast.")
+user_name = input(f"{RED}NARRATOR:{RESET}{YELLOW}Welcome to 'Escape!'! Let's start with your name, traveller.\nWhat's your name? {RESET}")
+print(f"{RED}NARRATOR:{RESET}{YELLOW}Great! Welcome, {user_name}! Before we start the game, there are a few things that you need to know.\nFirst of all, there are two types of commands: interact and move. The interact command will make you interact with things in the room. For example, if you want to interact with the apple you would type 'interact apple' in the terminal and if you want to move right you would type 'move right' in the terminal. Moving backwards will always lead you to the previous room if nothing else is stated. Items that you can interact with are written in cyan.\nBut with that, let's move on with the game, shall we?{RESET}")
+print("")
+print("You wake up on a dusty room. You don't remember what happened last night. How did you even end up here? All you know is that you have to get out, and that fast.")
 
 class Location:
     def __init__(self, name, description, directions):
@@ -28,7 +29,7 @@ locations = {
     "Corridor": Location("the corridor", "The corridor is barely lit up and you cannot see much. As you continue walking, you reach a point where the corridor splits in two. One way goes left and the other goes right.", {"backwards": "Hidden room", "right": "Puzzle room", "left": "Wizard room"}),
     "Puzzle room": Location("the Puzzle room", f"You turn right and reach a room well lit up with torches on the wall. On the floor, there are tiles in different shapes. The tiles are placed in a six by six grid, and your gut feeling tells you that one step in the wrong direction can lead to death. There is a skeleton at the middle of the room. Right ahead of you is a door, but you need to reach it first. There is also a sheet of {CYAN}paper{RESET} on the floor.", {"forwards": "Correct tile 1", "backwards": "Corridor"}), # SAVE LOCATION
     "Final door": Location("the door", f"You successfully finished the puzzle, and managed to not end up like the unlucky guy at the middle of the room.\n\nThe {CYAN}door{RESET} in front of you is closed.", {"backwards": "Correct tile 16"}),
-    "Final door opened": Location("You walk thorugh the door and proceed to climb the stairs.", f"As you walk, you start to smell the wonderful smell of grass, and forest, and nature. You are only one step from freedom. One more step. Now you are free.\n\n{YELLOW}CONGRATULATIONS {intro.user_name}! You completed the game! Did you know there are more than one ending? Play the game again to find out how it could also have ended...{RESET}", {}),
+    "Final door opened": Location("You walk thorugh the door and proceed to climb the stairs.", f"As you walk, you start to smell the wonderful smell of grass, and forest, and nature. You are only one step from freedom. One more step. Now you are free.\n\n{YELLOW}CONGRATULATIONS {user_name}! You completed the game! Did you know there are more than one ending? Play the game again to find out how it could also have ended...{RESET}", {}),
     ### PUZZLE ROOM ITEMS ###
     "Correct tile 1": Location("a new tile", "", {"forwards": "Correct tile 2", "right": "Death", "left": "Death", "backwards": "Puzzle room"}),
     "Correct tile 2": Location("a new tile", "The skeleton is right in front of you.", {"forwards": "Death", "right": "Death", "left": "Correct tile 3", "backwards": "Correct tile 1"}),
@@ -110,7 +111,7 @@ class Traveller:
             
         elif item_name == "yes":
             while True:
-                print("You walk to the man and say:\n'Yes, I really want to get out of here. Do you know where the exit is?'\nThe man looks at you, and it looks like he is on the verge to laughing.\n'You fool!' he says. 'Did you really think I, the great wizard Magico would let such a precious human escape? No, you came here for a reason, and that reason is to serve me forever!'\n\nThe Wizard initiates a fight! You will go through five rounds where you roll a d20. Every round will become progressively harder. If you lose more than two rounds in a row you are dead!")
+                print(f"You walk to the man and say:\n'Yes, I really want to get out of here. Do you know where the exit is?'\nThe man looks at you, and it looks like he is on the verge to laughing.\n'You fool!' he says. 'Did you really think I, the great wizard Magico would let such a precious human escape? No, you came here for a reason, and that reason is to serve me forever!'\n\n{RED}NARRATOR: {YELLOW}The Wizard initiates a fight! You will need to roll a die and get under a certain number every round. It's best of three, so you need to win two rounds to win the fight!{RESET}")
                 combat()
 
         elif item_name == "no":
@@ -131,7 +132,7 @@ def good_end():
         print(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
 
 def death_end():
-    print(f"You walk to the man and say:\n'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe man looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, the man has cast a spell upon you, and everything after that is incredibly foggy...\n\n{RED}YOU COMPLETED THE GAME!{YELLOW} Good job, {intro.user_name}, you completed the game. But to what cost? Did you know that there are several endings. Play again to find out what the other ones are...{RESET}")
+    print(f"You walk to the man and say:\n'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe man looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, the man has cast a spell upon you, and everything after that is incredibly foggy...\n\n{RED}YOU COMPLETED THE GAME!{YELLOW} Good job, {user_name}, you completed the game. But to what cost? Did you know that there are several endings. Play again to find out what the other ones are...{RESET}")
     end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
     if end_of_game == "yes":
         starter()
@@ -165,6 +166,8 @@ def secret_room():
 
 def starter():
     player = Traveller(locations["the Door room"])
+
+    combat()
 
     while True:
         print(player.current_location.description)
@@ -205,10 +208,10 @@ def combat_r2win():
         result = random.randint(1, sides)
         print(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result < 10:
-            print(f"You kick the man in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious blue mist flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in green grass and you can feel the hot sun shine on your face.\n\n{YELLOW}CONGRATULATIONS {RED}{intro.user_name}{RESET}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
+            print(f"You kick the man in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious blue mist flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in green grass and you can feel the hot sun shine on your face.\n\n{YELLOW}CONGRATULATIONS {RED}{user_name}{RESET}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
             end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET}")
             if end_of_game == "yes":
-                starter()
+                restart()
             elif end_of_game == "no":
                 exit()
             else:
@@ -230,7 +233,7 @@ def combat_r2lose():
             print(f"The man sees you hesitating and casts a spell on you! That's the last thing you remember. Everything else is foggy, and you feel like your body is not really under your command. You have become the wizard's slave.\n\n{YELLOW}YOU COMPLETED THE GAME! But to what cost?\nDid you know that there is more than one ending? Play the game again to find out...{RESET}")
             end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
             if end_of_game == "yes":
-                starter()
+                restart()
             elif end_of_game == "no":
                 exit()
             else:
@@ -243,10 +246,10 @@ def combat_r3():
         result = random.randint(1, sides)
         print(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result < 5:
-            print(f"You kick the man in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious blue mist flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in green grass and you can feel the hot sun shine on your face.\n\n{YELLOW}CONGRATS{RESET} {RED}{intro.user_name}{RESET}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
+            print(f"You kick the man in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious blue mist flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in green grass and you can feel the hot sun shine on your face.\n\n{YELLOW}CONGRATS{RESET} {RED}{user_name}{RESET}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
             end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
             if end_of_game == "yes":
-                starter()
+                restart()
             elif end_of_game == "no":
                 exit()
             else:
@@ -256,10 +259,13 @@ def combat_r3():
             print(f"The man sees you hesitating and casts a spell on you! That's the last thing you remember. Everything else is foggy, and you feel like your body is not really under your command. You have become the wizard's slave.\n\n{YELLOW}YOU COMPLETED THE GAME! But to what cost?\nDid you know that there is more than one ending? Play the game again to find out...{RESET}")
             end_of_game = input(f"{YELLOW}Play again?\nType {GREEN}yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
             if end_of_game == "yes":
-                starter()
+                restart()
             elif end_of_game == "no":
                 exit()
             else:
                 print(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
+
+def restart():
+    os.execl(sys.executable, sys.executable, *sys.argv)
 
 starter()
