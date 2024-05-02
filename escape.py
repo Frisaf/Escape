@@ -9,7 +9,7 @@ RESET  = "\033[0m"
 CYAN   = "\033[36m"
 
 user_name = input(f"{RED}NARRATOR:{RESET}{YELLOW}Welcome to 'Escape!'! Let's start with your name, traveller.\nWhat's your name? {RESET}")
-print(f"{RED}NARRATOR:{RESET}{YELLOW}Great! Welcome, {user_name}! Before we start the game, there are a few things that you need to know.\nFirst of all, there are two types of commands: interact and move. The interact command will make you interact with things in the room. For example, if you want to interact with the apple you would type 'interact apple' in the terminal and if you want to move right you would type 'move right' in the terminal. Moving backwards will always lead you to the previous room if nothing else is stated. Items that you can interact with are written in cyan.\nBut with that, let's move on with the game, shall we?{RESET}")
+print(f"{RED}NARRATOR: {RESET}{YELLOW}Great! Welcome, {user_name}! Before we start the game, there are a few things that you need to know.\nFirst of all, there are two types of commands: interact and move. The interact command will make you interact with things in the room. For example, if you want to interact with the apple you would type 'interact apple' in the terminal and if you want to move right you would type 'move right' in the terminal. Moving backwards will always lead you to the previous room if nothing else is stated. Items that you can interact with are written in cyan.\nBut with that, let's move on with the game, shall we?{RESET}")
 print("")
 print("You wake up on a dusty room. You don't remember what happened last night. How did you even end up here? All you know is that you have to get out, and that fast.")
 
@@ -23,7 +23,7 @@ locations = {
     ### STARTER ROOMS ###
     "the Door room": Location("the Door room", "In front of you, there are two doors: one on your right side and one on your left side. They look unlocked.", {"right": "Room one", "left": "Room two"}),
     "Room one": Location("Room one", f"From what you can see the room is empty, with black and cold stone walls on all four sides. However, there is a {CYAN}lever{RESET} on your right side.", {"backwards": "the Door room"}),
-    "Room two": Location("Room two", "The room is lit up with a torch and there is a table at the middle of the room. On the table, there is a {CYAN}letter{RESET}.", {"backwards": "the Door room"}),
+    "Room two": Location("Room two", f"The room is lit up with a torch and there is a table at the middle of the room. On the table, there is a {CYAN}letter{RESET}.", {"backwards": "the Door room"}),
     "the second Door room": Location("the Door room", "In front of you, there are two doors: one on your right side and one on your left side. They look unlocked. You also see something right ahead of you that was not there before: an opening in the wall.", {"right": "Room one", "left": "Room two", "forwards": "Hidden room"}),
     "Hidden room": Location("the Hidden room", "The room is dark, and you barely see a thing. From what you can tell, the 'room' consists of a corridor of which you cannot see the end of.", {"forwards": "Corridor", "backwards": "the second Door room"}),
     "Corridor": Location("the corridor", "The corridor is barely lit up and you cannot see much. As you continue walking, you reach a point where the corridor splits in two. One way goes left and the other goes right.", {"backwards": "Hidden room", "right": "Puzzle room", "left": "Wizard room"}),
@@ -69,11 +69,10 @@ class Traveller:
     def interact(self, item_name):
         if item_name == "lever":
             while True:
-                print("You pull the lever and hear a large thud somewhere else...")
+                print("You pull the lever and hear a loud thud somewhere else...")
                 choice = input(f"{YELLOW}What do you want to do?{RESET} ")
                 if choice == "move backwards":
                     secret_room()
-                    break
                 else:
                     print(f"{GREEN}You cannot do that...{RESET}")
         elif item_name == "letter":
@@ -85,7 +84,7 @@ class Traveller:
                 choice = input("What do you want to do? ")
                 if choice == "move forwards":
                     good_end()
-                    break
+                    #break
                 else:
                     print(f"{GREEN}You cannot do that...{RESET}")
         
@@ -123,9 +122,9 @@ def good_end():
     player = Traveller(locations["Final door opened"])
     print(player.current_location.name)
     print(player.current_location.description)
-    end_of_game = input(f"{YELLOW}Play again?\nType{GREEN}yes{YELLOW}or{GREEN}no{YELLOW}.{RESET}")
+    end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
     if end_of_game == "yes":
-        starter()
+        restart()
     elif end_of_game == "no":
         exit()
     else:
@@ -135,7 +134,7 @@ def death_end():
     print(f"You walk to the man and say:\n'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe man looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, the man has cast a spell upon you, and everything after that is incredibly foggy...\n\n{RED}YOU COMPLETED THE GAME!{YELLOW} Good job, {user_name}, you completed the game. But to what cost? Did you know that there are several endings. Play again to find out what the other ones are...{RESET}")
     end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
     if end_of_game == "yes":
-        starter()
+        restart()
     elif end_of_game == "no":
         exit()
     else:
@@ -167,8 +166,6 @@ def secret_room():
 def starter():
     player = Traveller(locations["the Door room"])
 
-    combat()
-
     while True:
         print(player.current_location.description)
         command = input(f"{YELLOW}WWhat do you want to do?{RESET} ")
@@ -186,14 +183,14 @@ def starter():
             except IndexError:
                 print(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
         else:
-            print("You cannot do that...")
+            print(f"{GREEN}You cannot do that...{RESET}")
 
 def combat():
     while True:
         sides = 20
-        input(f"{YELLOW}Press enter to roll the die. You need to roll lower than {GREEN}15{YELLOW} (d20).{RESET}")
+        input(f"{RED}NARRATOR: {YELLOW}Press enter to roll the die. You need to roll lower than {GREEN}15{YELLOW} (d20).{RESET}")
         result = random.randint(1, sides)
-        print(f"{YELLOW}You rolled a {GREEN}{result}{RESET}")
+        print(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result < 15:
             print("You sprint quickly towards the man and punch him in the face. He staggers backwards and gives you another oppurtunity to attack.")
             combat_r2win()
@@ -204,12 +201,12 @@ def combat():
 def combat_r2win():
     while True:
         sides = 20
-        input(f"{YELLOW}Press enter to roll the die. You need to roll lower than {GREEN}10{YELLOW} (d20).{RESET}")
+        input(f"{RED}NARRATOR: {YELLOW}Press enter to roll the die. You need to roll lower than {GREEN}10{YELLOW} (d20).{RESET}")
         result = random.randint(1, sides)
         print(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result < 10:
             print(f"You kick the man in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious blue mist flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in green grass and you can feel the hot sun shine on your face.\n\n{YELLOW}CONGRATULATIONS {RED}{user_name}{RESET}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
-            end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET}")
+            end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
             if end_of_game == "yes":
                 restart()
             elif end_of_game == "no":
@@ -223,7 +220,7 @@ def combat_r2win():
 def combat_r2lose():
     while True:
         sides = 20
-        input(f"{YELLOW}Press enter to roll the die. You need to roll lower than {GREEN}10{YELLOW} (d20).{RESET}")
+        input(f"{RED}NARRATOR: {YELLOW}Press enter to roll the die. You need to roll lower than {GREEN}10{YELLOW} (d20).{RESET}")
         result = random.randint(1, sides)
         print(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result < 10:
@@ -242,7 +239,7 @@ def combat_r2lose():
 def combat_r3():
     while True:
         sides = 20
-        input(f"{YELLOW}Press enter to roll the die. You need to roll lower than a {GREEN}5{YELLOW} (d20).{RESET}")
+        input(f"{RED}NARRATOR: {YELLOW}Press enter to roll the die. You need to roll lower than a {GREEN}5{YELLOW} (d20).{RESET}")
         result = random.randint(1, sides)
         print(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result < 5:
@@ -266,6 +263,7 @@ def combat_r3():
                 print(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
 
 def restart():
-    os.execl(sys.executable, sys.executable, *sys.argv)
+    print(f"{GREEN}Restarting game!{RESET}")
+    os.execv(sys.executable, ["python"] + sys.argv)
 
 starter()
