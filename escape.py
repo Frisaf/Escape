@@ -11,17 +11,17 @@ BOLD = "\033[1m"
 ITALIC = "\033[3m"
 PURPLE = "\033[35m"
 
+def wprint(text, width = 200):
+    newlines = text.split("\n")
+    for newlines in newlines:
+        wrapped = textwrap.wrap(newlines, width = width)
+        for wrapped in wrapped:
+            print(wrapped)
+
 def intro():
-    textwrap.fill(
-        width = 80,
-        initial_indent="",
-        subsequent_indent=""*6,
-        break_long_words=False,
-        text=""
-    )
     global user_name
     user_name = input(f"{RED}NARRATOR:{RESET}{YELLOW}Welcome to 'Escape!'! Let's start with your name, traveller.\nWhat's your name? {RESET}")
-    print(f"{RED}NARRATOR: {RESET}{YELLOW}Great! Welcome, {GREEN}{user_name}{YELLOW}! Before we start the game, there are a few things that you need to know.\nFirst of all, there are two types of commands: interact and move. The interact command will make you interact with things in the room. For example, if you want to interact with the apple you would type 'interact apple' in the terminal and if you want to move right you would type 'move right' in the terminal. Moving backwards will always lead you to the previous room if nothing else is stated. Items that you can interact with are written in {CYAN}cyan{YELLOW}.\nBut with that, let's move on with the game, shall we?{RESET}")
+    wprint(f"{RED}NARRATOR: {RESET}{YELLOW}Great! Welcome, {GREEN}{user_name}{YELLOW}! Before we start the game, there are a few things that you need to know.\nFirst of all, there are two types of commands: interact and move. The interact command will make you interact with things in the room. For example, if you want to interact with the apple you would type 'interact apple' in the terminal and if you want to move right you would type 'move right' in the terminal. Moving backwards will always lead you to the previous room if nothing else is stated. Items that you can interact with are written in {CYAN}cyan{YELLOW}.\nBut with that, let's move on with the game, shall we?{RESET}")
     print("")
     print("You wake up on a dusty room. You don't remember what happened last night. How did you even end up here? All you know is that you have to get out, and that fast.")
     starter()
@@ -36,8 +36,10 @@ locations = {
     ### STARTER ROOMS ###
     "the Door room": Location("the Door room", "In front of you, there are two doors: one on your right side and one on your left side. They look unlocked.", {"right": "Room one", "left": "Room two"}),
     "Room one": Location("Room one", f"From what you can see the room is empty, with black and cold stone walls on all four sides. However, there is a {CYAN}lever{RESET} on your right side.", {"backwards": "the Door room"}),
+    "Room one 2": Location("Room one", f"From what you can see the room is empty, with black and cold stone walls on all four sides. However, there is a {CYAN}lever{RESET} on your right side.", {"backwards": "the second Door room"}),
     "Room two": Location("Room two", f"The room is lit up with a torch and there is a table at the middle of the room. On the table, there is a {CYAN}letter{RESET}.", {"backwards": "the Door room"}),
-    "the second Door room": Location("the Door room", "In front of you, there are two doors: one on your right side and one on your left side. They look unlocked. You also see something right ahead of you that was not there before: an opening in the wall.", {"right": "Room one", "left": "Room two", "forwards": "Hidden room"}),
+    "Room two 2": Location("Room two", f"The room is lit up with a torch and there is a table at the middle of the room. On the table, there is a {CYAN}letter{RESET}.", {"backwards": "the second Door room"}),
+    "the second Door room": Location("the Door room", "In front of you, there are two doors: one on your right side and one on your left side. They look unlocked. You also see something right ahead of you that was not there before: an opening in the wall.", {"right": "Room one 2", "left": "Room two 2", "forwards": "Hidden room"}),
     "Hidden room": Location("the Hidden room", "The room is dark, and you barely see a thing. From what you can tell, the 'room' consists of a corridor of which you cannot see the end of.", {"forwards": "Corridor", "backwards": "the second Door room"}),
     "Corridor": Location("the corridor", "The corridor is barely lit up and you cannot see much. As you continue walking, you reach a point where the corridor splits in two. One way goes left and the other goes right.", {"backwards": "Hidden room", "right": "Puzzle room", "left": "Wizard room"}),
     "Puzzle room": Location("the Puzzle room", f"You turn right and reach a room well lit up with torches on the wall. On the floor, there are tiles in different shapes. The tiles are placed in a six by six grid, and your gut feeling tells you that one step in the wrong direction can lead to death. There is a skeleton at the middle of the room. Right ahead of you is a door, but you need to reach it first. There is also a sheet of {CYAN}paper{RESET} on the floor.", {"forwards": "Correct tile 1", "backwards": "Corridor"}), # SAVE LOCATION
@@ -73,7 +75,7 @@ class Traveller:
             next_location_name = self.current_location.directions[direction]
             next_location = locations[next_location_name]
             self.current_location = next_location
-            print(f"You walk to {next_location.name}")
+            wprint(f"You walk to {next_location.name}")
         else:
             print(f"{GREEN}You cannot go that way...{RESET}")
     
@@ -87,11 +89,11 @@ class Traveller:
                 else:
                     print(f"{GREEN}You cannot do that...{RESET}")
         elif item_name == "letter":
-            print(f"You pick up the letter and start to read:\n{BOLD}{ITALIC}{PURPLE}It's been weeks, no ages, since I last slept. If you read this, you need to leave now. This place is driving me insane. I haven't figured out the way out yet, but I think it has something to do with the lever in the other room...{RESET}")
+            wprint(f"You pick up the letter and start to read:\n{BOLD}{ITALIC}{PURPLE}It's been weeks, no ages, since I last slept. If you read this, you need to leave now. This place is driving me insane. I haven't figured out the way out yet, but I think it has something to do with the lever in the other room...{RESET}")
 
         elif item_name == "door":
             while True:
-                print(f"You carefully turn the door knob and the door opens with a squeeking noise. There is now a long stair case in front of you. As you look at the top, you catch a glimpse of {GREEN}green grass.{RESET}")
+                wprint(f"You carefully turn the door knob and the door opens with a squeeking noise. There is now a long stair case in front of you. As you look at the top, you catch a glimpse of {GREEN}green grass.{RESET}")
                 choice = input("What do you want to do? ")
                 if choice == "move forwards":
                     good_end()
@@ -120,7 +122,7 @@ class Traveller:
             
         elif item_name == "yes":
             while True:
-                print(f"You walk up to the man and say:\n'Yes, I really want to get out of here. Do you know where the exit is?'\nThe man looks at you, and it looks like he is on the verge to laughing.\n'You fool!' he says. 'Did you really think I, the great wizard Magico would let such a precious human escape? No, you came here for a reason, and that reason is to serve me forever!'\n\n{RED}NARRATOR: {YELLOW}Magico initiates a fight! You will need to roll a die and get under a certain number every round. You will play three rounds, so you will have to win two of them to succeed. Losing two rounds will have unwanted consequences...{RESET}")
+                wprint(f"You walk up to the man and say:\n'Yes, I really want to get out of here. Do you know where the exit is?'\nThe man looks at you, and it looks like he is on the verge to laughing.\n'You fool!' he says. 'Did you really think I, the great wizard Magico would let such a precious human escape? No, you came here for a reason, and that reason is to serve me forever!'\n\n{RED}NARRATOR: {YELLOW}Magico initiates a fight! You will need to roll a die and get under a certain number every round. You will play three rounds, so you will have to win two of them to succeed. Losing two rounds will have unwanted consequences...{RESET}")
                 combat()
 
         elif item_name == "no":
@@ -129,7 +131,7 @@ class Traveller:
             print(f"{GREEN}You cannot do that...{RESET}")
 
 def good_end():
-    print(f"You walk thorugh the door and proceed to climb the stairs. As you walk, you start to smell the wonderful smell of grass, and forest, and nature. You are only one step from freedom. One more step. Now you are free.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You completed the game! Did you know there are more than one ending? Play the game again to find out how it could also have ended...{RESET}")
+    wprint(f"You walk thorugh the door and proceed to climb the stairs. As you walk, you start to smell the wonderful smell of grass, and forest, and nature. You are only one step from freedom. One more step. Now you are free.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You completed the game! Did you know there are more than one ending? Play the game again to find out how it could also have ended...{RESET}")
     end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
     if end_of_game == "yes":
         restart()
@@ -139,7 +141,7 @@ def good_end():
         print(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
 
 def death_end():
-    print(f"You walk up to Magico and say:\n'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe wizard looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, he has cast a spell upon you, and everything after that is incredibly foggy...\n\n{RED}YOU COMPLETED THE GAME!{YELLOW} Good job, {GREEN}{user_name}{YELLOW}. You completed the game, but to what cost? Did you know that there are several endings. Play again to find out what the other ones are...{RESET}")
+    wprint(f"You walk up to Magico and say:\n'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe wizard looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, he has cast a spell upon you, and everything after that is incredibly foggy...\n\n{RED}YOU COMPLETED THE GAME!{YELLOW} Good job, {GREEN}{user_name}{YELLOW}. You completed the game, but to what cost? Did you know that there are several endings. Play again to find out what the other ones are...{RESET}")
     end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
     if end_of_game == "yes":
         restart()
@@ -153,7 +155,7 @@ def secret_room():
     print("You walk to the Door room.")
 
     while True:
-        print(player.current_location.description)
+        wprint(player.current_location.description)
         command = input(f"{YELLOW}What do you want to do?{RESET} ")
 
         if command.startswith("move"):
@@ -175,7 +177,7 @@ def starter():
     player = Traveller(locations["the Door room"])
 
     while True:
-        print(player.current_location.description)
+        wprint(player.current_location.description)
         command = input(f"{YELLOW}What do you want to do?{RESET} ")
 
         if command.startswith("move"):
@@ -213,7 +215,7 @@ def combat_r2win():
         result = random.randint(1, sides)
         print(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result <= 10:
-            print(f"You kick Magico in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious blue mist flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in {GREEN}green grass{RESET} and you can feel the hot sun shine on your face.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
+            wprint(f"You kick Magico in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious blue mist flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in {GREEN}green grass{RESET} and you can feel the hot sun shine on your face.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
             end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
             if end_of_game == "yes":
                 restart()
@@ -232,10 +234,10 @@ def combat_r2lose():
         result = random.randint(1, sides)
         print(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result <= 10:
-            print("You manage to bend his hands backwards and you hear him scream in agony, and then a crackling sound. The man, who you assume is a wizard, looks angrily at you. Prepare your next attack!")
+            wprint("You manage to bend his hands backwards and you hear him scream in agony, and then a crackling sound. The man, who you assume is a wizard, looks angrily at you. Prepare your next attack!")
             combat_r3()
         else:
-            print(f"Magico acts fast and casts a spell on you! That's the last thing you remember. Everything else is foggy, and you feel like your body is not really under your command. You have become the wizard's slave.\n\n{RED}YOU COMPLETED THE GAME!{YELLOW}Good job, {GREEN}{user_name}{YELLOW} You completed the game, but to what cost?\nDid you know that there is more than one ending? Play the game again to find out...{RESET}")
+            wprint(f"Magico acts fast and casts a spell on you! That's the last thing you remember. Everything else is foggy, and you feel like your body is not really under your command. You have become the wizard's slave.\n\n{RED}YOU COMPLETED THE GAME!{YELLOW}Good job, {GREEN}{user_name}{YELLOW} You completed the game, but to what cost?\nDid you know that there is more than one ending? Play the game again to find out...{RESET}")
             end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
             if end_of_game == "yes":
                 restart()
@@ -251,7 +253,7 @@ def combat_r3():
         result = random.randint(1, sides)
         print(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result <= 5:
-            print(f"You kick Magico in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious blue mist flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in {GREEN}green grass{RESET} and you can feel the hot sun shine on your face.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
+            wprint(f"You kick Magico in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious blue mist flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in {GREEN}green grass{RESET} and you can feel the hot sun shine on your face.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
             end_of_game = input(f"{YELLOW}Play again?\nType{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
             if end_of_game == "yes":
                 restart()
@@ -261,7 +263,7 @@ def combat_r3():
                 print(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
 
         else:
-            print(f"The wizard acts fast and casts a spell on you! That's the last thing you remember. Everything else is foggy, and you feel like your body is not really under your command. You have become the wizard's slave.\n\n{RED}YOU COMPLETED THE GAME!{YELLOW}Good job, {GREEN}{user_name}{YELLOW}. You completed the game, but to what cost?\nDid you know that there is more than one ending? Play the game again to find out...{RESET}")
+            wprint(f"The wizard acts fast and casts a spell on you! That's the last thing you remember. Everything else is foggy, and you feel like your body is not really under your command. You have become the wizard's slave.\n\n{RED}YOU COMPLETED THE GAME!{YELLOW}Good job, {GREEN}{user_name}{YELLOW}. You completed the game, but to what cost?\nDid you know that there is more than one ending? Play the game again to find out...{RESET}")
             end_of_game = input(f"{YELLOW}Play again?\nType {GREEN}yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
             if end_of_game == "yes":
                 restart()
