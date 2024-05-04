@@ -142,23 +142,29 @@ class Traveller:
 
 def good_end():
     wprint(f"You walk thorugh the door and proceed to climb the stairs. As you walk, you start to smell the wonderful smell of grass, and forest, and nature. You are only one step from freedom. One more step. Now you are free.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You completed the game! Did you know there are more than one ending? Play the game again to find out how it could also have ended...{RESET}")
-    end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
-    if end_of_game == "yes":
-        restart()
-    elif end_of_game == "no":
-        quit_game()
-    else:
-        wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
+    while True:
+        end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
+        if end_of_game == "yes":
+            restart()
+            break
+        elif end_of_game == "no":
+            quit_game()
+            break
+        else:
+            wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
 
 def death_end():
     wprint(f"You walk up to Magico and say:\n'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe wizard looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, he has cast a spell upon you, and everything after that is incredibly foggy...\n\n{RED}YOU COMPLETED THE GAME!{YELLOW} Good job, {GREEN}{user_name}{YELLOW}. You completed the game, but to what cost? Did you know that there are several endings. Play again to find out what the other ones are...{RESET}")
-    end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
-    if end_of_game == "yes":
-        restart()
-    elif end_of_game == "no":
-        quit_game()
-    else:
-        wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
+    while True:
+        end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
+        if end_of_game == "yes":
+            restart()
+            break
+        elif end_of_game == "no":
+            quit_game()
+            break
+        else:
+            wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
     
 def secret_room():
     player = Traveller(locations["the second Door room"])
@@ -226,13 +232,16 @@ def combat_r2win():
         wprint(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result <= 10:
             wprint(f"You kick Magico in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious {BLUE}blue mist{RESET} flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in {GREEN}green grass{RESET} and you can feel the hot sun shine on your face.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
-            end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
-            if end_of_game == "yes":
-                restart()
-            elif end_of_game == "no":
-                quit_game()
-            else:
-                wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
+            while True:
+                end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
+                if end_of_game == "yes":
+                    restart()
+                    break
+                elif end_of_game == "no":
+                    quit_game()
+                    break
+                else:
+                    wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
         else:
             wprint("The wizard sees you hesitating and casts a spell on you! Watch out, one more fail and you will have zero to no chance to get out of here!")
             combat_r3()
@@ -248,13 +257,16 @@ def combat_r2lose():
             combat_r3()
         else:
             wprint(f"Magico acts fast and casts a spell on you! That's the last thing you remember. Everything else is foggy, and you feel like your body is not really under your command. You have become the wizard's slave.\n\n{RED}YOU COMPLETED THE GAME!{YELLOW}Good job, {GREEN}{user_name}{YELLOW} You completed the game, but to what cost?\nDid you know that there is more than one ending? Play the game again to find out...{RESET}")
-            end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
-            if end_of_game == "yes":
-                restart()
-            elif end_of_game == "no":
-                quit_game()
-            else:
-                wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
+            while True:
+                end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
+                if end_of_game == "yes":
+                    restart()
+                    break
+                elif end_of_game == "no":
+                    quit_game()
+                    break
+                else:
+                    wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
 
 def combat_r3():
     while True:
@@ -264,37 +276,44 @@ def combat_r3():
         wprint(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result <= 5:
             wprint(f"You kick Magico in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious {BLUE}blue mist{RESET} flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in {GREEN}green grass{RESET} and you can feel the hot sun shine on your face.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
-            end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
-            if end_of_game == "yes":
-                restart()
-            elif end_of_game == "no":
-                quit_game()
-            else:
-                wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
+            while True:
+                end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
+                if end_of_game == "yes":
+                    restart()
+                    break
+                elif end_of_game == "no":
+                    quit_game()
+                    break
+                else:
+                    wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
 
         else:
             wprint(f"The wizard acts fast and casts a spell on you! That's the last thing you remember. Everything else is foggy, and you feel like your body is not really under your command. You have become the wizard's slave.\n\n{RED}YOU COMPLETED THE GAME!{YELLOW}Good job, {GREEN}{user_name}{YELLOW}. You completed the game, but to what cost?\nDid you know that there is more than one ending? Play the game again to find out...{RESET}")
-            end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type {GREEN}yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
-            if end_of_game == "yes":
-                restart()
-            elif end_of_game == "no":
-                quit_game()
-            else:
-                wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
+            while True:
+                end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
+                if end_of_game == "yes":
+                    restart()
+                    break
+                elif end_of_game == "no":
+                    quit_game()
+                    break
+                else:
+                    wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
 
 def restart():
     wprint(f"{GREEN}Restarting game!{RESET}")
     intro()
 
 def quit_game():
-    confirmation = input(f"{INDENT}{YELLOW}Are you sure you want to quit?\n{INDENT}Type {GREEN}yes{YELLOW} or {GREEN}no{YELLOW}.{RESET} ")
-    if confirmation == "yes":
-        wprint("Quitting in five seconds...")
-        time.sleep(5)
-        exit()
-    elif confirmation == "no":
-        restart()
-    else:
-        wprint(f"{YELLOW}That is not a valid command. Did you perhaps have a typo?{RESET}")
+    while True:
+        confirmation = input(f"{INDENT}{YELLOW}Are you sure you want to quit?\n{INDENT}Type {GREEN}yes{YELLOW} or {GREEN}no{YELLOW}.{RESET} ")
+        if confirmation == "yes":
+            wprint("Quitting in five seconds...")
+            time.sleep(5)
+            exit()
+        elif confirmation == "no":
+            restart()
+        else:
+            wprint(f"{YELLOW}That is not a valid command. Did you perhaps have a typo?{RESET}")
 
 intro()
