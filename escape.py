@@ -1,6 +1,10 @@
 import random
 import time
 import textwrap
+import ctypes
+
+kernel32 = ctypes.windll.kernel32
+kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
 
 YELLOW = "\033[33m"
 RED = "\033[31m"
@@ -20,7 +24,7 @@ def wprint(text, width = 200):
 
 def intro():
     global user_name
-    user_name = input(f"{RED}NARRATOR:{RESET}{YELLOW}Welcome to 'Escape!'! Let's start with your name, traveller.\nWhat's your name? {RESET}")
+    user_name = input(f"{RED}NARRATOR:{YELLOW} Welcome to 'Escape!'! Let's start with your name, traveller.\nWhat's your name?{RESET} ")
     wprint(f"{RED}NARRATOR: {RESET}{YELLOW}Great! Welcome, {GREEN}{user_name}{YELLOW}! Before we start the game, there are a few things that you need to know.\nFirst of all, there are two types of commands: interact and move. The interact command will make you interact with things in the room. For example, if you want to interact with the apple you would type 'interact apple' in the terminal and if you want to move right you would type 'move right' in the terminal. Moving backwards will always lead you to the previous room if nothing else is stated. Items that you can interact with are written in {CYAN}cyan{YELLOW}.\nBut with that, let's move on with the game, shall we?{RESET}")
     print("")
     print("You wake up on a dusty room. You don't remember what happened last night. How did you even end up here? All you know is that you have to get out, and that fast.")
