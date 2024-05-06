@@ -2,6 +2,7 @@ import random
 import time
 import textwrap
 import ctypes
+import escape_se
 
 kernel32 = ctypes.windll.kernel32
 kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
@@ -27,10 +28,23 @@ def wprint(text, width = 80):
 def intro():
     global user_name
     user_name = input(f"{INDENT}{RED}NARRATOR:{YELLOW} Welcome to 'Escape!'! Let's start with your name, traveller.\n{INDENT}What's your name?{RESET} ")
-    wprint(f"{RED}NARRATOR: {RESET}{YELLOW}Great! Welcome, {GREEN}{user_name}{YELLOW}! Before we start the game, there are a few things that you need to know.\nFirst of all, there are two types of commands: interact and move. The interact command will make you interact with things in the room. For example, if you want to interact with the apple you would type {GREEN}'interact apple'{YELLOW} in the terminal and if you want to move right you would type {GREEN}'move right'{YELLOW} in the terminal. Moving backwards will always lead you to the previous room if nothing else is stated. Items that you can interact with are written in {CYAN}cyan{YELLOW}.\nBut with that, let's move on with the game, shall we?{RESET}")
+    wprint(f"{RED}NARRATOR: {RESET}{YELLOW}Great! Welcome, {GREEN}{user_name}{YELLOW}! Before we start the game, there are a few things that you need to know.\nFirst of all, there are two types of commands: {GREEN}interact{YELLOW} and {GREEN}move{YELLOW}. The interact command will make you interact with things in the room. For example, if you want to interact with the apple you would type {GREEN}'interact apple'{YELLOW} in the terminal and if you want to move right you would type {GREEN}'move right'{YELLOW} in the terminal. Moving backwards will always lead you to the previous room if nothing else is stated. Items that you can interact with are written in {CYAN}cyan{YELLOW}.\nBut with that, let's move on with the game, shall we?{RESET}")
     wprint("")
     wprint("You wake up on a dusty room. You don't remember what happened last night. How did you even end up here? All you know is that you have to get out, and that fast.")
     starter()
+
+def pick_language():
+    wprint(f"{YELLOW}Choose language:\n{GREEN}English\nSwedish{RESET}")
+    picked_language = input(f"{INDENT}> ")
+    while True:
+        if picked_language == "English":
+            intro()
+            break
+        elif picked_language == "Swedish":
+            escape_se.intro()
+            break
+        else:
+            wprint("Please pick an available language.")
 
 class Location:
     def __init__(self, name, description, directions):
@@ -41,7 +55,7 @@ class Location:
 locations = {
     ### STARTER ROOMS ###
     "the Door room": Location("the Door room", "In front of you, there are two doors: one on your right side and one on your left side. They look unlocked.", {"right": "Room one", "left": "Room two"}),
-    "Room one": Location("Room one", f"From what you can see the room is empty, with black and cold stone walls on all four sides. However, there is a {CYAN}lever{RESET} on your right side.", {"backwards": "the Door room"}),
+    "Room one": Location("Room one", f"From what you can see the room is empty, with black and bare stone walls on all four sides. However, there is a {CYAN}lever{RESET} on your right side.", {"backwards": "the Door room"}),
     "Room one 2": Location("Room one", f"From what you can see the room is empty, with black and cold stone walls on all four sides. However, there is a {CYAN}lever{RESET} on your right side.", {"backwards": "the second Door room"}),
     "Room two": Location("Room two", f"The room is lit up with a torch and there is a table at the middle of the room. On the table, there is a {CYAN}letter{RESET}.", {"backwards": "the Door room"}),
     "Room two 2": Location("Room two", f"The room is lit up with a torch and there is a table at the middle of the room. On the table, there is a {CYAN}letter{RESET}.", {"backwards": "the second Door room"}),
@@ -67,7 +81,7 @@ locations = {
     "Correct tile 15": Location("a new tile", "", {"forwards": "Correct tile 16", "left": "Death", "backwards": "Correct tile 14"}),
     "Correct tile 16": Location("a new tile", "", {"forwards": "Death", "right": "Final door", "left": "Death", "backwards": "Correct tile 15"}),
     ### WIZARD ROOM ITEMS ###
-    "Wizard room": Location("the left", f"As you continue to walk in that direction, you eventually reach a small but well lit room. There are vials and papers spread all around the tables that stand alongside the walls, and in the middle stands a tall man with a long gray beard. He is wearing a long purple robe that almost touches the ground and there is a tall, cone shaped hat on his head.\n'Oh great', the man says. 'I've waited for someone new to step into my dungeon... Or I mean, you want to get out of here, don't you?'\n\n{RED}NARRATOR:{RESET} {YELLOW}You have two choices here: yes or no. Type {CYAN}'interact yes'{YELLOW} or {CYAN}'interact no'{YELLOW} in your terminal to continue. If you don't want to encounter this man just yet, you can type {GREEN}'move backwards'{YELLOW} to go back to the crossroad.{RESET}", {"yes": "Answer yes", "no": "Answer no", "backwards": "Corridor"}),
+    "Wizard room": Location("the left", f"As you continue to walk in that direction, you eventually reach a small but well lit room. There are vials and papers spread all around the tables that stand alongside the walls, and in the middle stands a tall man with a long gray beard. He is wearing a long purple robe that almost touches the ground and there is a tall, cone shaped hat on his head.\n'Oh great', the man says. 'I've waited for someone new to step into my dungeon... Or I mean, you want to get out of here, don't you?'\n\n{RED}NARRATOR:{RESET} {YELLOW}You have two choices here: yes or no. Type {CYAN}'interact yes'{YELLOW} or {CYAN}'interact no'{YELLOW} in your terminal to continue. If you don't want to encounter this man just yet, you can type {GREEN}'move backwards'{YELLOW} to go back to the crossroad in the corridor.{RESET}", {"yes": "Answer yes", "no": "Answer no", "backwards": "Corridor"}),
     ### DEATH ###
     "Death": Location("a new tile", f"You hear a sudden click and then a loud bang. Then, everything turns black...\n{YELLOW}GAME OVER! Type 'move backwards' to restart from the last save location.{RESET}", {"backwards": "Puzzle room"})
 }
@@ -316,4 +330,4 @@ def quit_game():
         else:
             wprint(f"{YELLOW}That is not a valid command. Did you perhaps have a typo?{RESET}")
 
-intro()
+pick_language()
