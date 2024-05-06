@@ -34,7 +34,9 @@ def intro():
     starter()
 
 def pick_language():
-    wprint(f"{YELLOW}Pick your preferred language:\n{GREEN}English\nSvenska{RESET}")
+    GB = '\U0001F1EC\U0001F1E7'
+    SE = '\U0001F1F8\U0001F1EA'
+    wprint(f"{YELLOW}Pick your preferred language:{RESET}\n"+ GB + f" {GREEN}English{RESET}\n" + SE + f" {GREEN}Svenska{RESET}\n" + f"{ITALIC}{YELLOW}You can always change language during scenes when you can move freely by typing {GREEN}'language'{YELLOW} (it also works with the word for language in all available languages) in the terminal. {BLUE}Please note that changing language in the middle of the game will reset your progress.{RESET}")
     while True:
         picked_language = input(f"{INDENT}> ")
         if picked_language == "English":
@@ -168,7 +170,7 @@ def good_end():
             wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
 
 def death_end():
-    wprint(f"You walk up to mannen and say:\n'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe man looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, he has cast a spell upon you, and everything after that is incredibly foggy...\n\n{RED}YOU COMPLETED THE GAME!{YELLOW} Good job, {GREEN}{user_name}{YELLOW}. You completed the game, but to what cost? Did you know that there are several endings? Play again to find out what the other ones are...{RESET}")
+    wprint(f"You walk up to the man and say:\n'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe man looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, he has cast a spell upon you, and everything after that is incredibly foggy...\n\n{RED}YOU COMPLETED THE GAME!{YELLOW} Good job, {GREEN}{user_name}{YELLOW}. You completed the game, but to what cost? Did you know that there are several endings? Play again to find out what the other ones are...{RESET}")
     while True:
         end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
         if end_of_game == "yes":
@@ -200,6 +202,8 @@ def secret_room():
                 player.interact(item)
             except IndexError:
                 wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
+        elif command.startswith("language") or command.startswith("språk"):
+            pick_language()
         else:
             wprint(f"{GREEN}You cannot do that...{RESET}")
 
@@ -222,6 +226,8 @@ def starter():
                 player.interact(item)
             except IndexError:
                 wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
+        elif command.startswith("language") or command.startswith("språk"):
+            pick_language()
         else:
             wprint(f"{GREEN}You cannot do that...{RESET}")
 

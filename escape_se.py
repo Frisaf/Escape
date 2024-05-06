@@ -186,6 +186,9 @@ def secret_room():
                 player.använd(item)
             except IndexError:
                 wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
+        elif command.startswith("language") or command.startswith("språk"):
+                import escape
+                escape.pick_language()
         else:
             wprint(f"{GREEN}Du kan inte göra det...{RESET}")
 
@@ -208,6 +211,9 @@ def starter():
                 player.använd(item)
             except IndexError:
                 wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
+        elif command.startswith("language") or command.startswith("språk"):
+            import escape
+            escape.pick_language()
         else:
             wprint(f"{GREEN}Du kan inte göra det...{RESET}")
 
