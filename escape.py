@@ -34,17 +34,17 @@ def intro():
     starter()
 
 def pick_language():
-    wprint(f"{YELLOW}Choose language:\n{GREEN}English\nSwedish{RESET}")
-    picked_language = input(f"{INDENT}> ")
+    wprint(f"{YELLOW}Pick your preferred language:\n{GREEN}English\nSvenska{RESET}")
     while True:
+        picked_language = input(f"{INDENT}> ")
         if picked_language == "English":
             intro()
             break
-        elif picked_language == "Swedish":
+        elif picked_language == "Svenska":
             escape_se.intro()
             break
         else:
-            wprint("Please pick an available language.")
+            wprint(f"{RED}Please pick an available language.{RESET}")
 
 class Location:
     def __init__(self, name, description, directions):
@@ -109,7 +109,7 @@ class Traveller:
                 else:
                     wprint(f"{GREEN}You cannot do that...{RESET}")
         elif item_name == "letter":
-            wprint(f"You pick up the letter and start to read:\n{BOLD}{ITALIC}{PURPLE}It's been weeks, no ages, since I last slept. If you read this, you need to leave now. This place is driving me insane. I haven't figured out the way out yet, but I think it has something to do with the lever in the other room...{RESET}")
+            wprint(f"You pick up the letter and start to read:\n{BOLD}{ITALIC}{PURPLE}It's been days, no weeks, since I last slept. If you read this, you need to leave now. This place is driving me insane. I haven't figured out the way out yet, but I think it has something to do with the lever in the other room...{RESET}")
 
         elif item_name == "door":
             while True:
@@ -168,7 +168,7 @@ def good_end():
             wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
 
 def death_end():
-    wprint(f"You walk up to Magico and say:\n'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe wizard looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, he has cast a spell upon you, and everything after that is incredibly foggy...\n\n{RED}YOU COMPLETED THE GAME!{YELLOW} Good job, {GREEN}{user_name}{YELLOW}. You completed the game, but to what cost? Did you know that there are several endings. Play again to find out what the other ones are...{RESET}")
+    wprint(f"You walk up to mannen and say:\n'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe man looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, he has cast a spell upon you, and everything after that is incredibly foggy...\n\n{RED}YOU COMPLETED THE GAME!{YELLOW} Good job, {GREEN}{user_name}{YELLOW}. You completed the game, but to what cost? Did you know that there are several endings? Play again to find out what the other ones are...{RESET}")
     while True:
         end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
         if end_of_game == "yes":
@@ -245,7 +245,7 @@ def combat_r2win():
         result = random.randint(1, sides)
         wprint(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result <= 10:
-            wprint(f"You kick Magico in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious {BLUE}blue mist{RESET} flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in {GREEN}green grass{RESET} and you can feel the hot sun shine on your face.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
+            wprint(f"You kick Magico in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious {BLUE}blue mist{RESET} rises out from his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in {GREEN}green grass{RESET} and you can feel the hot sun shine on your face.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
             while True:
                 end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
                 if end_of_game == "yes":
@@ -267,10 +267,10 @@ def combat_r2lose():
         result = random.randint(1, sides)
         wprint(f"{RED}NARRATOR: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result <= 10:
-            wprint("You manage to bend his hands backwards and you hear him scream in agony, and then a crackling sound. The man, who you assume is a wizard, looks angrily at you. Prepare your next attack!")
+            wprint("You manage to bend his hands backwards and you hear him scream in agony, and then a crackling sound. Magico looks angrily at you. Prepare your next attack!")
             combat_r3()
         else:
-            wprint(f"Magico acts fast and casts a spell on you! That's the last thing you remember. Everything else is foggy, and you feel like your body is not really under your command. You have become the wizard's slave.\n\n{RED}YOU COMPLETED THE GAME!{YELLOW}Good job, {GREEN}{user_name}{YELLOW} You completed the game, but to what cost?\nDid you know that there is more than one ending? Play the game again to find out...{RESET}")
+            wprint(f"Magico acts fast and casts a spell on you! That's the last thing you remember. Everything else is foggy, and you feel like your body is not really under your command. You have become the wizard's slave.\n\n{RED}YOU COMPLETED THE GAME!{YELLOW}Good job, {GREEN}{user_name}{YELLOW} You completed the game, but to what cost?\nDid you know that there is more than one ending? Play the game again to find out what the others are...{RESET}")
             while True:
                 end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
                 if end_of_game == "yes":

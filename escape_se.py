@@ -27,7 +27,7 @@ def wprint(text, width = 80):
 def intro():
     global user_name
     user_name = input(f"{INDENT}{RED}UPPLÄSARE:{YELLOW} Välkommen till 'Escape!'! Vi börjar med namn.\n{INDENT}Vad heter du?{RESET} ")
-    wprint(f"{RED}UPPLÄSARE: {RESET}{YELLOW}Fantastiskt! Välkommen, {GREEN}{user_name}{YELLOW}! Före vi börjar spelet så finns det några saker som du behöver veta.\nFörst och främst så finns det två typer av kommandon: {GREEN}använd{YELLOW} och {GREEN}move{YELLOW}. Kommandot använd gör så att du interagerar med olika saker i rummet, så om du till exempel vill interagera med äpplet så skulle du skriva {GREEN}'använd äpple'{YELLOW} i terminalen och om du vill flytta dig till höger så skriver du {GREEN}'gå höger'{YELLOW} i terminalen. Om du går bakåt kommer du alltid att gå tillbaka till det föregående rummet om ingenting annat sägs. Föremål som du kan interagera med är skrivet med {CYAN}cyan{YELLOW}.\nMed låt oss nu start spelet!{RESET}")
+    wprint(f"{RED}UPPLÄSARE: {RESET}{YELLOW}Fantastiskt! Välkommen, {GREEN}{user_name}{YELLOW}! Före vi börjar spelet så finns det några saker som du behöver veta.\nFörst och främst så finns det två typer av kommandon: {GREEN}använd{YELLOW} och {GREEN}gå{YELLOW}. Kommandot använd gör så att du interagerar med olika saker i rummet, så om du till exempel vill interagera med äpplet så skulle du skriva {GREEN}'använd äpple'{YELLOW} i terminalen och om du vill flytta dig till höger så skriver du {GREEN}'gå höger'{YELLOW} i terminalen. Om du går bakåt kommer du alltid att gå tillbaka till det föregående rummet om ingenting annat sägs. Föremål som du kan interagera med är skrivet med {CYAN}cyan{YELLOW}.\nMed låt oss nu start spelet!{RESET}")
     wprint("")
     wprint("Du vaknar i ett dammigt rum. Du kommer inte ihåg vad som hände förra natten. Hur kom du ens hit? Allt du vet just nu är att du måste ta dig ut härifrån, snabt.")
     starter()
@@ -65,9 +65,9 @@ locations = {
     "Correct tile 13": Location("en ny platta", "", {"framåt": "Death", "höger": "Correct tile 14", "vänster": "Death", "bakåt": "Correct tile 12"}),
     "Correct tile 14": Location("en ny platta", "", {"framåt": "Death", "vänster": "Correct tile 15", "bakåt": "Correct tile 13"}),
     "Correct tile 15": Location("en ny platta", "", {"framåt": "Correct tile 16", "vänster": "Death", "bakåt": "Correct tile 14"}),
-    "Correct tile 16": Location("en ny platta", "", {"framåt": "Death", "höger": "Final door", "vänster": "Death", "bakåt": "Correct tile 15"}),
+    "Correct tile 16": Location("en ny platta", "", {"framåt": "Death", "höger": "Sista dörren", "vänster": "Death", "bakåt": "Correct tile 15"}),
     ### WIZARD ROOM ITEMS ###
-    "Wizard room": Location("vänster", f"Du fortsätter att gå åt det hållet och snart nog kommer du till ett litet men väl upplyst rum. Längs väggarna står det bord med utpsridda flaskor och papper, och i mitten av rummet står det en lång man med ett långt grått skägg. Han har på sig en lång lila rock som nästan nuddar marken och på huvudet har han på sig en lång, konformad hatt.\n'Åh vad bra', säger han. 'Jag har väntat på att någon ny ska ta sig in i min håla.... Eller jag menar, du vill väl ta dig ut härifrån?\n\n{RED}UPPLÄSARE:{RESET} {YELLOW}Du har två val här: ja eller nej. Skriv {CYAN}'använd ja'{YELLOW} or {CYAN}'använd nej'{YELLOW} i terminalen för att fortsätta. Om du inte vill möta denna man riktigt än så kan du skriva {GREEN}'gå bakåt'{YELLOW} för att gå tillbaka till vägskälet i korridoren.{RESET}", {"ja": "Answer yes", "nej": "Answer no", "bakåt": "Korridoren"}),
+    "Trollkarlsrummet": Location("vänster", f"Du fortsätter att gå åt det hållet och snart nog kommer du till ett litet men väl upplyst rum. Längs väggarna står det bord med utpsridda flaskor och papper, och i mitten av rummet står det en lång man med ett långt grått skägg. Han har på sig en lång lila rock som nästan nuddar marken och på huvudet har han på sig en lång, konformad hatt.\n'Åh vad bra', säger han. 'Jag har väntat på att någon ny ska ta sig in i min håla.... Eller jag menar, du vill väl ta dig ut härifrån?\n\n{RED}UPPLÄSARE:{RESET} {YELLOW}Du har två val här: ja eller nej. Skriv {CYAN}'använd ja'{YELLOW} or {CYAN}'använd nej'{YELLOW} i terminalen för att fortsätta. Om du inte vill möta denna man riktigt än så kan du skriva {GREEN}'gå bakåt'{YELLOW} för att gå tillbaka till vägskälet i korridoren.{RESET}", {"ja": "Answer yes", "nej": "Answer no", "bakåt": "Korridoren"}),
     ### DEATH ###
     "Death": Location("en ny platta", f"Du hör ett klick och sedan en högljudd explosion. Allting blir svart...\n{YELLOW}GAME OVER! Skriv 'gå bakåt' för att starta om från din senaste sparplats.{RESET}", {"bakåt": "Pusselrummet"})
 }
@@ -95,19 +95,19 @@ class Traveller:
                 else:
                     wprint(f"{GREEN}Du kan inte göra det...{RESET}")
         elif item_name == "brev":
-            wprint(f"You pick up the letter and start to read:\n{BOLD}{ITALIC}{PURPLE}It's been weeks, no ages, since I last slept. If you read this, you need to leave now. This place is driving me insane. I haven't figured out the way out yet, but I think it has something to do with the lever in the other room...{RESET}")
+            wprint(f"Du plockar upp brevet och läser:\n{BOLD}{ITALIC}{PURPLE}Det har gått flera dagar, nej veckor, sedan jag senast sov. Om du läser detta måste du lämna nu. Det här stället driver mig till vansinne. Jag har inte listat ut vägen ut än, men jag tror att det har något att göra med spaken i det andra rummet...{RESET}")
 
-        elif item_name == "door":
+        elif item_name == "dörr":
             while True:
-                wprint(f"You carefully turn the door knob and the door opens with a squeeking noise. There is now a long stair case in front of you. As you look at the top, you catch a glimpse of {GREEN}green grass.{RESET}")
+                wprint(f"Du vrider försiktigt på dörrhandtaget och dörren öppnas med ett gnisslande läte. Du ser en lång trappa framför dig, och när du tittar mot toppen skymtar du {GREEN}grönt gräs.{RESET}")
                 choice = input(f"{INDENT}Vad vill du göra? ")
-                if choice == "move framåt":
+                if choice == "gå framåt":
                     good_end()
                 else:
                     wprint(f"{GREEN}Du kan inte göra det...{RESET}")
         
-        elif item_name == "paper":
-            wprint("You pick up the paper, and you see that it seems to contain a map of some sort.")
+        elif item_name == "papper":
+            wprint("Du plockar upp pappret. Det ser ut som om någon skrivit ned någon sorts karta på den.")
             wprint(f"""\
                   {RED}
             |---|---|---|---|---|---|
@@ -126,55 +126,55 @@ class Traveller:
                 {RESET}
                 """)
             
-        elif item_name == "yes":
+        elif item_name == "ja":
             while True:
-                wprint(f"You walk up to the man and say:\n'Yes, I really want to get out of here. Do you know where the exit is?'\nThe man looks at you, and it looks like he is on the verge to laughing.\n'You fool!' he says. 'Did you really think I, the great wizard Magico would let such a precious human escape? No, you came here for a reason, and that reason is to serve me forever!'\n\n{RED}UPPLÄSARE: {YELLOW}Magico initiates a fight! You will need to roll a die and get under a certain number every round. You will play three rounds, so you will have to win two of them to succeed. Losing two rounds will have unwanted consequences...{RESET}")
+                wprint(f"Du går fram till mannen och säger:\n'Ja, jag vill gärna ta mig ut härifrån. Vet du var utgången är?'\nMannen tittar på dig och det ser ut som om han är på väg att skratta.\n'Dåre!' säger han. 'Tror du verkligen att jag, den stora trollkarlen Magico, skulle låta en så värdeful människa fly? Nej, du kom hit av en anledning, och den anledningen är att tjäna mig för evigt!'\n\n{RED}UPPLÄSARE: {YELLOW}Magico vill slåss! Du behöver rulla tärning och rulla under ett visst nummer varje runda. Bäst av tre vinner, så du behöver vinna tre för att vinna. Om du å andra sidan förlorar två kommer det att få oönskade konsekvenser...{RESET}")
                 combat()
 
-        elif item_name == "no":
+        elif item_name == "nej":
             death_end()
 
-        elif item_name == "skeleton":
-            wprint("Why did you använd with the skeleton? Silly.")
+        elif item_name == "skelett":
+            wprint("Varför interagerar du med skelettet? Fåntratt.")
             
         else:
             wprint(f"{GREEN}Du kan inte göra det...{RESET}")
 
 def good_end():
-    wprint(f"You walk thorugh the door and proceed to climb the stairs. As you walk, you start to smell the wonderful smell of grass, and forest, and nature. You are only one step from freedom. One more step. Now you are free.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You completed the game! Did you know there are more than one ending? Play the game again to find out how it could also have ended...{RESET}")
+    wprint(f"Du går ut genom dörren och går uppför trapporna. Allt eftersom du kommer längre och längre upp börjar du känna lukten av gräs, och skog, och natur. Till sist är du äntligen fri.\n\n{RED}GRATTIS {GREEN}{user_name}{YELLOW}! Du klarade av spelet! Visste du att det finns mer än ett slut? Spela igen för att se hur det också kunde ha slutat...{RESET}")
     while True:
-        end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
-        if end_of_game == "yes":
+        end_of_game = input(f"{INDENT}{YELLOW}Spela igen?\n{INDENT}Skriv{GREEN} ja{YELLOW} eller{GREEN} nej{YELLOW}.{RESET} ")
+        if end_of_game == "ja":
             restart()
             break
-        elif end_of_game == "no":
+        elif end_of_game == "nej":
             quit_game()
             break
         else:
             wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
 
 def death_end():
-    wprint(f"You walk up to Magico and say:\n'No, I would like to stay here and explore a little more. This dungeon was actually pretty interesting.'\nThe wizard looks at you, and he seems happy with your answer. He chuckles.\n'Good. Why don't you stay forever then?'\nBefore you know it, he has cast a spell upon you, and everything after that is incredibly foggy...\n\n{RED}YOU COMPLETED THE GAME!{YELLOW} Good job, {GREEN}{user_name}{YELLOW}. You completed the game, but to what cost? Did you know that there are several endings. Play again to find out what the other ones are...{RESET}")
+    wprint(f"Du går fram till mannen och säger:\n'Nej, jag skulle vilja stanna här och utforska lite till. Den här hålan var faktiskt ganska intressant.'\nMannen ser på dig och ser ut att vara glad över ditt svar. Han skrattar.\n'Bra. Varför stannar du inte för evigt isåfall?'\nInnan du vet ordet av har han kastat en förbannelse över dig och allting efter det är extremt otydligt...\n\n{RED}DU KLARADE SPELET!{YELLOW} Bra jobbat, {GREEN}{user_name}{YELLOW}. DU klarade spelet, men till vilket pris? Visste du att det finns mer än ett slut? Spela igen för att se hur det också kunde ha slutat...{RESET}")
     while True:
-        end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
-        if end_of_game == "yes":
+        end_of_game = input(f"{INDENT}{YELLOW}Spela igen?\n{INDENT}Skriv{GREEN} ja{YELLOW} eller{GREEN} nej{YELLOW}.{RESET} ")
+        if end_of_game == "ja":
             restart()
             break
-        elif end_of_game == "no":
+        elif end_of_game == "nej":
             quit_game()
             break
         else:
             wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
     
 def secret_room():
-    player = Traveller(locations["the second Door room"])
-    wprint("Du går till the Door room.")
+    player = Traveller(locations["Det andra dörrummet"])
+    wprint("Du går till dörrummet")
 
     while True:
         wprint(player.current_location.description)
         command = input(f"{INDENT}{YELLOW}Vad vill du göra?{RESET} ")
 
-        if command.startswith("move"):
+        if command.startswith("gå"):
             try:
                 direction = command.split()[1]
                 player.move(direction)
@@ -190,13 +190,13 @@ def secret_room():
             wprint(f"{GREEN}Du kan inte göra det...{RESET}")
 
 def starter():
-    player = Traveller(locations["the Door room"])
+    player = Traveller(locations["Dörrummet"])
 
     while True:
         wprint(player.current_location.description)
         command = input(f"{INDENT}{YELLOW}Vad vill du göra?{RESET} ")
 
-        if command.startswith("move"):
+        if command.startswith("gå"):
             try:
                 direction = command.split()[1]
                 player.move(direction)
@@ -214,55 +214,55 @@ def starter():
 def combat():
     while True:
         sides = 20
-        input(f"{INDENT}{RED}UPPLÄSARE: {YELLOW}Press enter to roll the die. You need to roll lower than {GREEN}15{YELLOW} (d20).{RESET}")
+        input(f"{INDENT}{RED}UPPLÄSARE: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}15{YELLOW} (d20).{RESET}")
         result = random.randint(1, sides)
-        wprint(f"{RED}UPPLÄSARE: {YELLOW}You rolled a {GREEN}{result}{RESET}")
+        wprint(f"{RED}UPPLÄSARE: {YELLOW}Du rullade {GREEN}{result}{RESET}")
         if result <= 15:
-            wprint("You sprint quickly towards the wizard and punch him in the face. He staggers bakåt and gives you another oppurtunity to attack.")
+            wprint("Du springer fort mot trollkarlen och slår honom i ansiktet. Han stapplar bakåt och ger dig ett tillfälle för ytterligare en attack.")
             combat_r2win()
         else:
-            wprint("The wizard sees you hesitating and casts a spell on you! Watch out, one more fail and you will have zero to no chance to get out of here!")
+            wprint("Trollkarlen ser att du tvekar och kastar en trollformel mot dig! Se upp, efter ett till misslyckat tärningskast kommer du inte kunna ta dig ut härifrån!")
             combat_r2lose()
 
 def combat_r2win():
     while True:
         sides = 20
-        input(f"{INDENT}{RED}UPPLÄSARE: {YELLOW}Press enter to roll the die. You need to roll lower than {GREEN}10{YELLOW} (d20).{RESET}")
+        input(f"{INDENT}{RED}UPPLÄSARE: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}10{YELLOW} (d20).{RESET}")
         result = random.randint(1, sides)
-        wprint(f"{RED}UPPLÄSARE: {YELLOW}You rolled a {GREEN}{result}{RESET}")
+        wprint(f"{RED}UPPLÄSARE: {YELLOW}Du rullade {GREEN}{result}{RESET}")
         if result <= 10:
-            wprint(f"You kick Magico in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious {BLUE}blue mist{RESET} flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in {GREEN}green grass{RESET} and you can feel the hot sun shine on your face.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
+            wprint(f"Du sparkar Magico i magen. Han faller till marken och det ser ut som att han är medvetslös. En mysyisk {BLUE}blå rök{RESET} stiger från hans kropp och ut i luften. Plötsligt är du inte längre i den mörka hålan du var i förut, utan du står istället på ett fält täckt av {GREEN}grönt gräs{RESET} och du kan känna solens varma strålar skina på ditt ansikte.\n\n{RED}GRATTIS {GREEN}{user_name}{YELLOW}! Du klarade av spelet! Visste du att det finns mer än ett slut? Spela igen för att ta reda på hur det också kunde ha slutat...{RESET}")
             while True:
-                end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
-                if end_of_game == "yes":
+                end_of_game = input(f"{INDENT}{YELLOW}Spela igen?\n{INDENT}Skriv{GREEN} ja{YELLOW} eller{GREEN} nej{YELLOW}.{RESET} ")
+                if end_of_game == "ja":
                     restart()
                     break
-                elif end_of_game == "no":
+                elif end_of_game == "nej":
                     quit_game()
                     break
                 else:
                     wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
         else:
-            wprint("The wizard sees you hesitating and casts a spell on you! Watch out, one more fail and you will have zero to no chance to get out of here!")
+            wprint("Trollkarlen ser att du tvekar och kastar en trollformel mot dig! Se upp, efter ett till misslyckat tärningskast kommer du inte kunna ta dig ut härifrån!")
             combat_r3()
 
 def combat_r2lose():
     while True:
         sides = 20
-        input(f"{INDENT}{RED}UPPLÄSARE: {YELLOW}Press enter to roll the die. You need to roll lower than {GREEN}10{YELLOW} (d20).{RESET}")
+        input(f"{INDENT}{RED}UPPLÄSARE: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}10{YELLOW} (d20).{RESET}")
         result = random.randint(1, sides)
-        wprint(f"{RED}UPPLÄSARE: {YELLOW}You rolled a {GREEN}{result}{RESET}")
+        wprint(f"{RED}UPPLÄSARE: {YELLOW}Du rullade {GREEN}{result}{RESET}")
         if result <= 10:
-            wprint("You manage to bend his hands bakåt and you hear him scream in agony, and then a crackling sound. The man, who you assume is a wizard, looks angrily at you. Prepare your next attack!")
+            wprint("Du lyckas böja hans händer baklänges. Trollkarlen skriker av smärta och du hör hur benen i hans handleder knakar. Magico ser på dig med ursinne i blicken. Förbered din nästa attack!")
             combat_r3()
         else:
-            wprint(f"Magico acts fast and casts a spell on you! That's the last thing you remember. Everything else is foggy, and you feel like your body is not really under your command. You have become the wizard's slave.\n\n{RED}YOU COMPLETED THE GAME!{YELLOW}Good job, {GREEN}{user_name}{YELLOW} You completed the game, but to what cost?\nDid you know that there is more than one ending? Play the game again to find out...{RESET}")
+            wprint(f"Magico agerar snabbt och kastar en förbannelse på dig. Det är det sista du kommer ihåg. Allt annat är otydligt och det känns som om din kropp inte riktigt lyder dig. Du blev trollkarlens slav\n\n{RED}DU KLARADE SPELET! {YELLOW}Bra jobbat, {GREEN}{user_name}{YELLOW} Du klarade spelet, men till vilket pris?\nVisste du att det finns mer än ett slut? Spela spelet igen för att ta reda på vilka de andra är...{RESET}")
             while True:
-                end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
-                if end_of_game == "yes":
+                end_of_game = input(f"{INDENT}{YELLOW}Spela igen?\n{INDENT}Skriv{GREEN} ja{YELLOW} eller{GREEN} nej{YELLOW}.{RESET} ")
+                if end_of_game == "ja":
                     restart()
                     break
-                elif end_of_game == "no":
+                elif end_of_game == "nej":
                     quit_game()
                     break
                 else:
@@ -271,24 +271,24 @@ def combat_r2lose():
 def combat_r3():
     while True:
         sides = 20
-        input(f"{INDENT}{RED}UPPLÄSARE: {YELLOW}Press enter to roll the die. You need to roll lower than a {GREEN}5{YELLOW} (d20).{RESET}")
+        input(f"{INDENT}{RED}UPPLÄSARE: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}5{YELLOW} (d20).{RESET}")
         result = random.randint(1, sides)
         wprint(f"{RED}UPPLÄSARE: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result <= 5:
-            wprint(f"You kick Magico in his stomach and he falls to the ground. It seems like he is uncouncious. A mysterious {BLUE}blue mist{RESET} flows out of his body and out in the air, and suddenly you are no longer in the dark dungeon you were in before. No, you are standing on a field covered in {GREEN}green grass{RESET} and you can feel the hot sun shine on your face.\n\n{RED}CONGRATULATIONS {GREEN}{user_name}{YELLOW}! You finished the game! Did you know that there are more than one ending? Play the game again to find out what could have happened...{RESET}")
+            wprint(f"Du sparkar Magico i magen. Han faller till marken och det ser ut som att han är medvetslös. En mysyisk {BLUE}blå rök{RESET} stiger från hans kropp och ut i luften. Plötsligt är du inte längre i den mörka hålan du var i förut, utan du står istället på ett fält täckt av {GREEN}grönt gräs{RESET} och du kan känna solens varma strålar skina på ditt ansikte.\n\n{RED}GRATTIS {GREEN}{user_name}{YELLOW}! Du klarade av spelet! Visste du att det finns mer än ett slut? Spela igen för att ta reda på hur det också kunde ha slutat...{RESET}")
             while True:
-                end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
-                if end_of_game == "yes":
+                end_of_game = input(f"{INDENT}{YELLOW}Spela igen?\n{INDENT}Skriv{GREEN} ja{YELLOW} eller{GREEN} nej{YELLOW}.{RESET} ")
+                if end_of_game == "ja":
                     restart()
                     break
-                elif end_of_game == "no":
+                elif end_of_game == "nej":
                     quit_game()
                     break
                 else:
                     wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
 
         else:
-            wprint(f"The wizard acts fast and casts a spell on you! That's the last thing you remember. Everything else is foggy, and you feel like your body is not really under your command. You have become the wizard's slave.\n\n{RED}YOU COMPLETED THE GAME!{YELLOW}Good job, {GREEN}{user_name}{YELLOW}. You completed the game, but to what cost?\nDid you know that there is more than one ending? Play the game again to find out...{RESET}")
+            wprint(f"Magico agerar snabbt och kastar en förbannelse på dig. Det är det sista du kommer ihåg. Allt annat är otydligt och det känns som om din kropp inte riktigt lyder dig. Du blev trollkarlens slav\n\n{RED}DU KLARADE SPELET!{YELLOW}Bra jobbat, {GREEN}{user_name}{YELLOW} Du klarade spelet, men till vilket pris?\nVisste du att det finns mer än ett slut? Spela spelet igen för att ta reda på vilka de andra är...{RESET}")
             while True:
                 end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
                 if end_of_game == "yes":
@@ -301,17 +301,17 @@ def combat_r3():
                     wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
 
 def restart():
-    wprint(f"{GREEN}Restarting game!{RESET}")
+    wprint(f"{GREEN}Startar om spelet!{RESET}")
     intro()
 
 def quit_game():
     while True:
-        confirmation = input(f"{INDENT}{YELLOW}Are you sure you want to quit?\n{INDENT}Type {GREEN}yes{YELLOW} or {GREEN}no{YELLOW}.{RESET} ")
-        if confirmation == "yes":
-            wprint("Quitting in five seconds...")
+        confirmation = input(f"{INDENT}{YELLOW}Är du säker på att du vill avsluta?\n{INDENT}Skriv {GREEN}ja{YELLOW} eller {GREEN}nej{YELLOW}.{RESET} ")
+        if confirmation == "ja":
+            wprint("Stänger av spelet om fem sekunder...")
             time.sleep(5)
             exit()
-        elif confirmation == "no":
+        elif confirmation == "nej":
             restart()
         else:
             wprint(f"{YELLOW}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
