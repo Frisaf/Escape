@@ -3,6 +3,7 @@ import time
 import textwrap
 import ctypes
 import escape_se
+import escape_de
 
 kernel32 = ctypes.windll.kernel32
 kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
@@ -44,6 +45,9 @@ def pick_language():
             break
         elif picked_language == "Svenska":
             escape_se.intro()
+            break
+        elif picked_language == "Deutsch":
+            escape_de.intro()
             break
         else:
             wprint(f"{RED}Please pick an available language.{RESET}")

@@ -26,8 +26,8 @@ def wprint(text, width = 80):
 
 def intro():
     global user_name
-    user_name = input(f"{INDENT}{RED}UPPLÄSARE:{YELLOW} Välkommen till 'Escape!'! Vi börjar med namn.\n{INDENT}Vad heter du?{RESET} ")
-    wprint(f"{RED}UPPLÄSARE: {RESET}{YELLOW}Fantastiskt! Välkommen, {GREEN}{user_name}{YELLOW}! Innan vi startar spelet så finns det några saker som du behöver veta.\nFörst och främst så finns det två typer av kommandon: {GREEN}använd{YELLOW} och {GREEN}gå{YELLOW}. Kommandot använd gör så att du interagerar med olika saker i rummet, så om du till exempel vill interagera med äpplet så skulle du skriva {GREEN}'använd äpple'{YELLOW} i terminalen och om du vill flytta dig till höger så skriver du {GREEN}'gå höger'{YELLOW} i terminalen. Om du går bakåt kommer du alltid att gå tillbaka till det föregående rummet om ingenting annat sägs. Föremål som du kan interagera med är skrivet med {CYAN}cyan{YELLOW}.\nMed låt oss nu start spelet!{RESET}")
+    user_name = input(f"{INDENT}{RED}ERZÄHLER{YELLOW} Willkommen bei 'Escape!'! Fangen wir mit deinem Namen an, Reisender\n{INDENT}Wie heißt du?{RESET} ")
+    wprint(f"{RED}ERZÄHLER: {RESET}{YELLOW}Toll! Willkommen, {GREEN}{user_name}{YELLOW}! Bevor wir mit dem Spiel beginnen, gibt es einige Dinge, die Sie wissen müssen.\nZunächst einmal gibt es zwei Arten von Befehlen: {GREEN}gebraucht{YELLOW} und {GREEN}gehen{YELLOW}. Kommandot använd gör så att du interagerar med olika saker i rummet, så om du till exempel vill interagera med äpplet så skulle du skriva {GREEN}'använd äpple'{YELLOW} i terminalen och om du vill flytta dig till höger så skriver du {GREEN}'gå höger'{YELLOW} i terminalen. Om du går bakåt kommer du alltid att gå tillbaka till det föregående rummet om ingenting annat sägs. Föremål som du kan interagera med är skrivet med {CYAN}cyan{YELLOW}.\nMed låt oss nu start spelet!{RESET}")
     wprint("")
     wprint("Du vaknar i ett dammigt rum. Du kommer inte ihåg vad som hände förra natten. Hur kom du ens hit? Allt du vet just nu är att du måste ta dig ut härifrån, snabt.")
     starter()
@@ -67,7 +67,7 @@ locations = {
     "Correct tile 15": Location("en ny platta", "", {"framåt": "Correct tile 16", "vänster": "Death", "bakåt": "Correct tile 14"}),
     "Correct tile 16": Location("en ny platta", "", {"framåt": "Death", "höger": "Sista dörren", "vänster": "Death", "bakåt": "Correct tile 15"}),
     ### WIZARD ROOM ITEMS ###
-    "Trollkarlsrummet": Location("vänster", f"Du fortsätter att gå åt det hållet och snart nog kommer du till ett litet men väl upplyst rum. Längs väggarna står det bord med utpsridda flaskor och papper, och i mitten av rummet står det en lång man med ett långt grått skägg. Han har på sig en lång lila rock som nästan nuddar marken och på huvudet har han på sig en lång, konformad hatt.\n'Åh vad bra', säger han. 'Jag har väntat på att någon ny ska ta sig in i min håla.... Eller jag menar, du vill väl ta dig ut härifrån?\n\n{RED}UPPLÄSARE:{RESET} {YELLOW}Du har två val här: ja eller nej. Skriv {CYAN}'använd ja'{YELLOW} or {CYAN}'använd nej'{YELLOW} i terminalen för att fortsätta. Om du inte vill möta denna man riktigt än så kan du skriva {GREEN}'gå bakåt'{YELLOW} för att gå tillbaka till vägskälet i korridoren.{RESET}", {"ja": "Answer yes", "nej": "Answer no", "bakåt": "Korridoren"}),
+    "Trollkarlsrummet": Location("vänster", f"Du fortsätter att gå åt det hållet och snart nog kommer du till ett litet men väl upplyst rum. Längs väggarna står det bord med utpsridda flaskor och papper, och i mitten av rummet står det en lång man med ett långt grått skägg. Han har på sig en lång lila rock som nästan nuddar marken och på huvudet har han på sig en lång, konformad hatt.\n'Åh vad bra', säger han. 'Jag har väntat på att någon ny ska ta sig in i min håla.... Eller jag menar, du vill väl ta dig ut härifrån?\n\n{RED}ERZÄHLER:{RESET} {YELLOW}Du har två val här: ja eller nej. Skriv {CYAN}'använd ja'{YELLOW} or {CYAN}'använd nej'{YELLOW} i terminalen för att fortsätta. Om du inte vill möta denna man riktigt än så kan du skriva {GREEN}'gå bakåt'{YELLOW} för att gå tillbaka till vägskälet i korridoren.{RESET}", {"ja": "Answer yes", "nej": "Answer no", "bakåt": "Korridoren"}),
     ### DEATH ###
     "Death": Location("en ny platta", f"Du hör ett klick och sedan en högljudd explosion. Allting blir svart...\n{YELLOW}GAME OVER! Skriv 'gå bakåt' för att starta om från din senaste sparplats.{RESET}", {"bakåt": "Pusselrummet"})
 }
@@ -128,7 +128,7 @@ class Traveller:
             
         elif item_name == "ja":
             while True:
-                wprint(f"Du går fram till mannen och säger:\n'Ja, jag vill gärna ta mig ut härifrån. Vet du var utgången är?'\nMannen tittar på dig och det ser ut som om han är på väg att skratta.\n'Dåre!' säger han. 'Tror du verkligen att jag, den stora trollkarlen Magico, skulle låta en så värdeful människa fly? Nej, du kom hit av en anledning, och den anledningen är att tjäna mig för evigt!'\n\n{RED}UPPLÄSARE: {YELLOW}Magico vill slåss! Du behöver rulla tärning och rulla under ett visst nummer varje runda. Bäst av tre vinner, så du behöver vinna tre för att vinna. Om du å andra sidan förlorar två kommer det att få oönskade konsekvenser...{RESET}")
+                wprint(f"Du går fram till mannen och säger:\n'Ja, jag vill gärna ta mig ut härifrån. Vet du var utgången är?'\nMannen tittar på dig och det ser ut som om han är på väg att skratta.\n'Dåre!' säger han. 'Tror du verkligen att jag, den stora trollkarlen Magico, skulle låta en så värdeful människa fly? Nej, du kom hit av en anledning, och den anledningen är att tjäna mig för evigt!'\n\n{RED}ERZÄHLER: {YELLOW}Magico vill slåss! Du behöver rulla tärning och rulla under ett visst nummer varje runda. Bäst av tre vinner, så du behöver vinna tre för att vinna. Om du å andra sidan förlorar två kommer det att få oönskade konsekvenser...{RESET}")
                 combat()
 
         elif item_name == "nej":
@@ -220,9 +220,9 @@ def starter():
 def combat():
     while True:
         sides = 20
-        input(f"{INDENT}{RED}UPPLÄSARE: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}15{YELLOW} (d20).{RESET}")
+        input(f"{INDENT}{RED}ERZÄHLER: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}15{YELLOW} (d20).{RESET}")
         result = random.randint(1, sides)
-        wprint(f"{RED}UPPLÄSARE: {YELLOW}Du rullade {GREEN}{result}{RESET}")
+        wprint(f"{RED}ERZÄHLER: {YELLOW}Du rullade {GREEN}{result}{RESET}")
         if result <= 15:
             wprint("Du springer fort mot trollkarlen och slår honom i ansiktet. Han stapplar bakåt och ger dig ett tillfälle för ytterligare en attack.")
             combat_r2win()
@@ -233,9 +233,9 @@ def combat():
 def combat_r2win():
     while True:
         sides = 20
-        input(f"{INDENT}{RED}UPPLÄSARE: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}10{YELLOW} (d20).{RESET}")
+        input(f"{INDENT}{RED}ERZÄHLER: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}10{YELLOW} (d20).{RESET}")
         result = random.randint(1, sides)
-        wprint(f"{RED}UPPLÄSARE: {YELLOW}Du rullade {GREEN}{result}{RESET}")
+        wprint(f"{RED}ERZÄHLER: {YELLOW}Du rullade {GREEN}{result}{RESET}")
         if result <= 10:
             wprint(f"Du sparkar Magico i magen. Han faller till marken och det ser ut som att han är medvetslös. En mysyisk {BLUE}blå rök{RESET} stiger från hans kropp och ut i luften. Plötsligt är du inte längre i den mörka hålan du var i förut, utan du står istället på ett fält täckt av {GREEN}grönt gräs{RESET} och du kan känna solens varma strålar skina på ditt ansikte.\n\n{RED}GRATTIS {GREEN}{user_name}{YELLOW}! Du klarade av spelet! Visste du att det finns mer än ett slut? Spela igen för att ta reda på hur det också kunde ha slutat...{RESET}")
             while True:
@@ -255,9 +255,9 @@ def combat_r2win():
 def combat_r2lose():
     while True:
         sides = 20
-        input(f"{INDENT}{RED}UPPLÄSARE: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}10{YELLOW} (d20).{RESET}")
+        input(f"{INDENT}{RED}ERZÄHLER: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}10{YELLOW} (d20).{RESET}")
         result = random.randint(1, sides)
-        wprint(f"{RED}UPPLÄSARE: {YELLOW}Du rullade {GREEN}{result}{RESET}")
+        wprint(f"{RED}ERZÄHLER: {YELLOW}Du rullade {GREEN}{result}{RESET}")
         if result <= 10:
             wprint("Du lyckas böja hans händer baklänges. Trollkarlen skriker av smärta och du hör hur benen i hans handleder knakar. Magico ser på dig med ursinne i blicken. Förbered din nästa attack!")
             combat_r3()
@@ -277,9 +277,9 @@ def combat_r2lose():
 def combat_r3():
     while True:
         sides = 20
-        input(f"{INDENT}{RED}UPPLÄSARE: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}5{YELLOW} (d20).{RESET}")
+        input(f"{INDENT}{RED}ERZÄHLER: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}5{YELLOW} (d20).{RESET}")
         result = random.randint(1, sides)
-        wprint(f"{RED}UPPLÄSARE: {YELLOW}You rolled a {GREEN}{result}{RESET}")
+        wprint(f"{RED}ERZÄHLER: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result <= 5:
             wprint(f"Du sparkar Magico i magen. Han faller till marken och det ser ut som att han är medvetslös. En mysyisk {BLUE}blå rök{RESET} stiger från hans kropp och ut i luften. Plötsligt är du inte längre i den mörka hålan du var i förut, utan du står istället på ett fält täckt av {GREEN}grönt gräs{RESET} och du kan känna solens varma strålar skina på ditt ansikte.\n\n{RED}GRATTIS {GREEN}{user_name}{YELLOW}! Du klarade av spelet! Visste du att det finns mer än ett slut? Spela igen för att ta reda på hur det också kunde ha slutat...{RESET}")
             while True:
