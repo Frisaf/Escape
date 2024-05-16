@@ -26,10 +26,10 @@ def wprint(text, width = 80):
 
 def intro():
     global user_name
-    user_name = input(f"{INDENT}{RED}ERZÄHLER{YELLOW} Willkommen bei 'Escape!'! Fangen wir mit deinem Namen an, Reisender\n{INDENT}Wie heißt du?{RESET} ")
-    wprint(f"{RED}ERZÄHLER: {RESET}{YELLOW}Toll! Willkommen, {GREEN}{user_name}{YELLOW}! Bevor wir mit dem Spiel beginnen, gibt es einige Dinge, die Sie wissen müssen.\nZunächst einmal gibt es zwei Arten von Befehlen: {GREEN}gebraucht{YELLOW} und {GREEN}gehen{YELLOW}. Kommandot använd gör så att du interagerar med olika saker i rummet, så om du till exempel vill interagera med äpplet så skulle du skriva {GREEN}'använd äpple'{YELLOW} i terminalen och om du vill flytta dig till höger så skriver du {GREEN}'gå höger'{YELLOW} i terminalen. Om du går bakåt kommer du alltid att gå tillbaka till det föregående rummet om ingenting annat sägs. Föremål som du kan interagera med är skrivet med {CYAN}cyan{YELLOW}.\nMed låt oss nu start spelet!{RESET}")
+    user_name = input(f"{INDENT}{RED}ERZÄHLER{YELLOW} Willkommen bei 'Escape!'! Fangen wir mit deinem Namen an, Reisender\n{INDENT}Wie heißen Sie?{RESET} ")
+    wprint(f"{RED}ERZÄHLER: {RESET}{YELLOW}Toll! Willkommen, {GREEN}{user_name}{YELLOW}! Bevor wir mit dem Spiel beginnen, gibt es einige Dinge, die Sie wissen müssen.\nZunächst einmal gibt es zwei Arten von Befehlen: {GREEN}gebraucht{YELLOW} und {GREEN}gehen{YELLOW}. Mit dem Befehl gebraucht können Sie mit verschiedenen Dingen im Raum interagieren. Wenn Sie zum Beispiel mit dem Apfel interagieren wollen, würden Sie {GREEN}'gebraucht Apfel'{YELLOW} im Terminal ein und wenn Sie nach rechts gehen wollen, geben Sie {GREEN}'gehen rechts'{YELLOW} im Terminal. Wenn Sie rückwärts gehen, kehren Sie immer in den vorherigen Raum zurück, sofern nicht anders angegeben. Objekte, mit denen Sie interagieren können, werden mit {CYAN}zyan{YELLOW}.\nAber jetzt lasst uns das Spiel beginnen!{RESET}")
     wprint("")
-    wprint("Du vaknar i ett dammigt rum. Du kommer inte ihåg vad som hände förra natten. Hur kom du ens hit? Allt du vet just nu är att du måste ta dig ut härifrån, snabt.")
+    wprint("Sie wachen in einem staubigen Zimmer auf. Du kannst dich nicht erinnern, was letzte Nacht passiert ist. Wie sind Sie überhaupt hierher gekommen? Alles, was du im Moment weißt, ist, dass du von hier verschwinden musst, und zwar schnell.")
     starter()
 
 class Location:
@@ -40,36 +40,36 @@ class Location:
 
 locations = {
     ### STARTER ROOMS ###
-    "Dörrummet": Location("dörrummet", "Framför dig ser du två dörrar: en till höger och en till vänster. De ser olåsta ut.", {"höger": "Rum ett", "vänster": "Rum två"}),
-    "Rum ett": Location("rum ett", f"Utifrån vad du kan se så är rummet tomt. På en av rummets kala väggar sitter det dock en {CYAN}spak{RESET}.", {"bakåt": "Dörrummet"}),
-    "Rum ett 2": Location("rum ett", f"Utifrån vad du kan se så är rummet tomt. På en av rummets kala väggar sitter det dock en {CYAN}spak{RESET}.", {"bakåt": "Det andra dörrummet"}),
-    "Rum två": Location("Rum två", f"Rummet är upplyst av en fackla som sitter på ena väggen. I mitten av rummet finns det ett bord, och på bordet ligger det ett {CYAN}brev{RESET}.", {"bakåt": "Dörrummet"}),
-    "Rum två 2": Location("Rum två", f"Rummet är upplyst av en fackla som sitter på ena väggen. I mitten av rummet finns det ett bord, och på bordet ligger det ett {CYAN}brev{RESET}.", {"bakåt": "Det andra dörrummet"}),
-    "Det andra dörrummet": Location("Dörrummet", "Framför dig ser du två dörrar: en till höger och en till vänster. De ser olåsta ut. Du ser även något som inte var där tidigare, nämligen en öppning i väggen rakt framför dig.", {"höger": "Rum ett 2", "vänster": "Rum två 2", "framåt": "Det hemliga rummet"}),
-    "Det hemliga rummet": Location("det hemliga rummet", "Rummet är mörkt och du ser knappt någonting. Av det lilla du kan se så består 'rummet' av en korridor som du inte kan se slutet av.", {"framåt": "Korridoren", "bakåt": "Det andra dörrummet"}),
-    "Korridoren": Location("korridoren", "Korridoren är svagt upplyst och du kan inte se mycket. När du fortsätter att gå kommer du så småning om till en punkt där korridoren delar sig i två. En väg går vänster och den andra går höger.", {"bakåt": "Det hemliga rummet", "höger": "Pusselrummet", "vänster": "Trollkarlsrummet"}),
-    "Pusselrummet": Location("pusselrummet", f"Du svängar höger och kommer fram till ett väl upplyst rum med facklor på väggarna. På golvet ligger det kakelplattor i olika former i ett rutnät som är sex gånger sex plattor stort. Din magkänsla säger dig att ett steg i fel riktning kommer leda till en säker död. Det är ett skelett i mitten av rummet och rakt framför dig finns det även en dörr, men du måste nå den först. Det ligger även ett {CYAN}papper{RESET} på marken.", {"framåt": "Correct tile 1", "bakåt": "Korridoren"}), # SAVE LOCATION
-    "Sista dörren": Location("dörren", f"Du lyckas med att ta dig igenom pusslet utan att sluta upp som den olyckliga personen i mitten av rummet.\n\n{CYAN}Dörren{RESET} framför dig är stängd", {"bakåt": "Correct tile 16"}),
-    "Correct tile 1": Location("en ny platta", "", {"framåt": "Correct tile 2", "höger": "Death", "vänster": "Death", "bakåt": "Puzzle room"}),
-    "Correct tile 2": Location("en ny platta", "Skelettet är rakt framför dig.", {"framåt": "Death", "höger": "Death", "vänster": "Correct tile 3", "bakåt": "Correct tile 1"}),
-    "Correct tile 3": Location("en ny platta", "", {"framåt": "Death", "höger": "Correct tile 4", "vänster": "Death", "bakåt": "Correct tile 2"}),
-    "Correct tile 4": Location("en ny platta", "Skelettet är till höger om dig.", {"framåt": "Correct tile 5", "höger": "Death", "vänster": "Death", "bakåt": "Correct tile 3"}),
-    "Correct tile 5": Location("en ny platta", "", {"framåt": "Death", "höger": "Correct tile 6", "vänster": "Death", "bakåt": "Correct tile 4"}),
-    "Correct tile 6": Location("en ny platta", "Skelettet är till höger om dig.", {"framåt": "Correct tile 7", "höger": "Death", "vänster": "Death", "bakåt": "Correct tile 5"}),
-    "Correct tile 7": Location("en ny platta", "", {"framåt": "Death", "höger": "Correct tile 8", "vänster": "Death", "bakåt": "Correct tile 6"}),
-    "Correct tile 8": Location("en ny platta", "", {"framåt": "Death", "höger": "Death", "vänster": "Correct tile 9", "bakåt": "Correct tile 7"}),
-    "Correct tile 9": Location("en ny platta", "", {"framåt": "Correct tile 10", "höger": "Death", "vänster": "Death", "bakåt": "Correct tile 8"}),
-    "Correct tile 10": Location("en ny platta", "", {"höger": "Death", "vänster": "Correct tile 11", "bakåt": "Correct tile 9"}),
-    "Correct tile 11": Location("en ny platta", "", {"framåt": "Correct tile 12", "vänster": "Death", "bakåt": "Correct tile 10"}),
-    "Correct tile 12": Location("en ny platta", "", {"framåt": "Death", "vänster": "Correct tile 13", "bakåt": "Correct tile 11"}),
-    "Correct tile 13": Location("en ny platta", "", {"framåt": "Death", "höger": "Correct tile 14", "vänster": "Death", "bakåt": "Correct tile 12"}),
-    "Correct tile 14": Location("en ny platta", "", {"framåt": "Death", "vänster": "Correct tile 15", "bakåt": "Correct tile 13"}),
-    "Correct tile 15": Location("en ny platta", "", {"framåt": "Correct tile 16", "vänster": "Death", "bakåt": "Correct tile 14"}),
-    "Correct tile 16": Location("en ny platta", "", {"framåt": "Death", "höger": "Sista dörren", "vänster": "Death", "bakåt": "Correct tile 15"}),
+    "Der Türzimmer": Location("zum Türzimmer", "Vor Ihnen sehen Sie zwei Türen: eine auf der rechten und eine auf der linken Seite. Sie sehen unverschlossen aus.", {"rechts": "Zimmer eins", "links": "Zimmer zwei"}),
+    "Zimmer eins": Location("zu Zimmer eins", f"Soweit Sie sehen können, ist der Raum leer. An einer der kahlen Wände des Raums befindet sich jedoch ein {CYAN}Hebel{RESET}.", {"rückwärts": "Der Türzimmer"}),
+    "Zimmer eins 2": Location("zu Zimmer eins", f"Soweit Sie sehen können, ist der Raum leer. An einer der kahlen Wände des Raums befindet sich jedoch ein {CYAN}Hebel{RESET}.", {"rückwärts": "Der andere Türzimmer"}),
+    "Zimmer zwei": Location("zu Zimmer zwei", f"Der Raum wird von einer Fackel an einer Wand beleuchtet. In der Mitte des Raumes steht ein Tisch, auf dem ein {CYAN}Brief{RESET} liegt.", {"rückwärts": "Der Türzimmer"}),
+    "Zimmer zwei 2": Location("zu Zimmer zwei", f"Der Raum wird von einer Fackel an einer Wand beleuchtet. In der Mitte des Raumes steht ein Tisch, auf dem ein {CYAN}Brief{RESET} liegt.", {"rückwärts": "Der andere Türzimmer"}),
+    "Der andere Türzimmer": Location("zum Türzimmer", "Vor Ihnen sehen Sie zwei Türen: eine auf der rechten und eine auf der linken Seite. Sie sehen unverschlossen aus. Sie werden auch etwas sehen, das vorher nicht da war: eine Öffnung in der Wand direkt vor Ihnen.", {"rechts": "Zimmer eins 2", "links": "Zimmer zwei 2", "vorwärts": "Der geheime Zimmer"}),
+    "Der geheime Zimmer": Location("zum geheimen Zimmer", "Der Raum ist dunkel und man kann kaum etwas sehen. Von dem Wenigen, das Sie sehen können, besteht der 'Raum' aus einem Korridor, dessen Ende Sie nicht sehen können.", {"vorwärts": "Die Korridore", "rückwärts": "Der andere Türzimmer"}),
+    "Die Korridore": Location("zur Korridore", "Der Korridor ist schwach beleuchtet, und Sie können nicht viel sehen. Wenn du weitergehst, kommst du schließlich an eine Stelle, an der sich der Gang in zwei Teile teilt. Ein Weg führt nach links und der andere nach rechts.", {"rückwärts": "Der geheime Zimmer", "rechts": "Das Puzzlezimmer", "links": "Das Zimmer des Zauberers"}),
+    "Das Puzzlezimmer": Location("zum Puzzlezimmer", f"Sie wenden sich nach rechts und gelangen in einen gut beleuchteten Raum mit Fackeln an den Wänden. Auf dem Boden liegen Fliesen in verschiedenen Formen in einem Raster von sechs mal sechs. Ihr Gefühl sagt Ihnen, dass ein Schritt in die falsche Richtung zum sicheren Tod führt. In der Mitte des Raumes steht ein Skelett und direkt vor dir ist auch eine Tür, die du aber erst erreichen musst. Auf dem Boden liegt auch ein {CYAN}Papier{RESET}.", {"vorwärts": "Correct tile 1", "rückwärts": "Die Korridore"}), # SAVE LOCATION
+    "Letzte Tür": Location("zur Tür", f"Du schaffst es, das Rätsel zu lösen, ohne als die unglückliche Person in der Mitte des Raumes zu enden.\n\nDie {CYAN}Tür{RESET} vor Ihnen ist geschlossen.", {"rückwärts": "Correct tile 16"}),
+    "Correct tile 1": Location("einer neuen Fliese", "", {"vorwärts": "Correct tile 2", "rechts": "Death", "links": "Death", "rückwärts": "Puzzle room"}),
+    "Correct tile 2": Location("zu einer neuen Fliese", "Das Skelett liegt direkt vor Ihnen.", {"vorwärts": "Death", "rechts": "Death", "links": "Correct tile 3", "rückwärts": "Correct tile 1"}),
+    "Correct tile 3": Location("zu einer neuen Fliese", "", {"vorwärts": "Death", "rechts": "Correct tile 4", "links": "Death", "rückwärts": "Correct tile 2"}),
+    "Correct tile 4": Location("zu einer neuen Fliese", "Das Skelett befindet sich zu Ihrer Rechten.", {"vorwärts": "Correct tile 5", "rechts": "Death", "links": "Death", "rückwärts": "Correct tile 3"}),
+    "Correct tile 5": Location("zu einer neuen Fliese", "", {"vorwärts": "Death", "rechts": "Correct tile 6", "links": "Death", "rückwärts": "Correct tile 4"}),
+    "Correct tile 6": Location("zu einer neuen Fliese", "Das Skelett befindet sich zu Ihrer Rechten.", {"vorwärts": "Correct tile 7", "rechts": "Death", "links": "Death", "rückwärts": "Correct tile 5"}),
+    "Correct tile 7": Location("zu einer neuen Fliese", "", {"vorwärts": "Death", "rechts": "Correct tile 8", "links": "Death", "rückwärts": "Correct tile 6"}),
+    "Correct tile 8": Location("zu einer neuen Fliese", "", {"vorwärts": "Death", "rechts": "Death", "links": "Correct tile 9", "rückwärts": "Correct tile 7"}),
+    "Correct tile 9": Location("zu einer neuen Fliese", "", {"vorwärts": "Correct tile 10", "rechts": "Death", "links": "Death", "rückwärts": "Correct tile 8"}),
+    "Correct tile 10": Location("zu einer neuen Fliese", "", {"rechts": "Death", "links": "Correct tile 11", "rückwärts": "Correct tile 9"}),
+    "Correct tile 11": Location("zu einer neuen Fliese", "", {"vorwärts": "Correct tile 12", "links": "Death", "rückwärts": "Correct tile 10"}),
+    "Correct tile 12": Location("zu einer neuen Fliese", "", {"vorwärts": "Death", "links": "Correct tile 13", "rückwärts": "Correct tile 11"}),
+    "Correct tile 13": Location("zu einer neuen Fliese", "", {"vorwärts": "Death", "rechts": "Correct tile 14", "links": "Death", "rückwärts": "Correct tile 12"}),
+    "Correct tile 14": Location("zu einer neuen Fliese", "", {"vorwärts": "Death", "links": "Correct tile 15", "rückwärts": "Correct tile 13"}),
+    "Correct tile 15": Location("zu einer neuen Fliese", "", {"vorwärts": "Correct tile 16", "links": "Death", "rückwärts": "Correct tile 14"}),
+    "Correct tile 16": Location("zu einer neuen Fliese", "", {"vorwärts": "Death", "rechts": "Letzte Tür", "links": "Death", "rückwärts": "Correct tile 15"}),
     ### WIZARD ROOM ITEMS ###
-    "Trollkarlsrummet": Location("vänster", f"Du fortsätter att gå åt det hållet och snart nog kommer du till ett litet men väl upplyst rum. Längs väggarna står det bord med utpsridda flaskor och papper, och i mitten av rummet står det en lång man med ett långt grått skägg. Han har på sig en lång lila rock som nästan nuddar marken och på huvudet har han på sig en lång, konformad hatt.\n'Åh vad bra', säger han. 'Jag har väntat på att någon ny ska ta sig in i min håla.... Eller jag menar, du vill väl ta dig ut härifrån?\n\n{RED}ERZÄHLER:{RESET} {YELLOW}Du har två val här: ja eller nej. Skriv {CYAN}'använd ja'{YELLOW} or {CYAN}'använd nej'{YELLOW} i terminalen för att fortsätta. Om du inte vill möta denna man riktigt än så kan du skriva {GREEN}'gå bakåt'{YELLOW} för att gå tillbaka till vägskälet i korridoren.{RESET}", {"ja": "Answer yes", "nej": "Answer no", "bakåt": "Korridoren"}),
+    "Das Zimmer des Zauberers": Location("links", f"Du gehst weiter in diese Richtung und kommst bald darauf in einen kleinen, aber gut beleuchteten Raum. An den Wänden stehen Tische, auf denen Flaschen und Papiere ausgebreitet sind, und in der Mitte des Raumes steht ein großer Mann mit einem langen grauen Bart. Er trägt einen langen violetten Mantel, der fast den Boden berührt, und auf dem Kopf einen langen kegelförmigen Hut.\n'Oh, gut', sagt er. 'Ich habe darauf gewartet, dass jemand Neues in meine Den kommt... Oder ich meine, du willst doch hier raus, oder?\n\n{RED}ERZÄHLER:{RESET} {YELLOW}Sie haben hier zwei Möglichkeiten: ja oder nein. Schreiben Sie {CYAN}'gebraucht ja'{YELLOW} oder {CYAN}'gebraucht nein'{YELLOW} in das Terminal ein, um fortzufahren. Wenn Sie diesen Mann noch nicht treffen willst, können Sie {GREEN}'gehen rückwärts'{YELLOW} um zur Kreuzung im Korridor zurückzukehren.{RESET}", {"ja": "Answer yes", "nej": "Answer no", "rückwärts": "Die Korridore"}),
     ### DEATH ###
-    "Death": Location("en ny platta", f"Du hör ett klick och sedan en högljudd explosion. Allting blir svart...\n{YELLOW}GAME OVER! Skriv 'gå bakåt' för att starta om från din senaste sparplats.{RESET}", {"bakåt": "Pusselrummet"})
+    "Death": Location("zu einer neuen Fliese", f"Sie hören ein Klicken und dann eine laute Explosion. Alles wird schwarz...\n{YELLOW}GAME OVER! Schreiben Sie 'gehen rückwärts' um von Ihren letzten Speicherort neu zu beginnen.{RESET}", {"rückwärts": "Das Puzzlezimmer"})
 }
 
 class Traveller:
@@ -81,33 +81,33 @@ class Traveller:
             next_location_name = self.current_location.directions[direction]
             next_location = locations[next_location_name]
             self.current_location = next_location
-            wprint(f"Du går till {next_location.name}")
+            wprint(f"Sie gehen {next_location.name}")
         else:
-            wprint(f"{GREEN}Du kan inte gå dit...{RESET}")
+            wprint(f"{GREEN}Sie können es nicht tun...{RESET}")
     
-    def använd(self, item_name):
+    def gebraucht(self, item_name):
         if item_name == "spak":
             while True:
-                wprint("Du drar i spaken och hör en högljudd duns någon annan stans...")
-                choice = input(f"{INDENT}{YELLOW}Vad vill du göra?{RESET} ")
-                if choice == "gå bakåt":
+                wprint("Sie ziehen den Hebel und hören irgendwo anders einen lauten Knall...")
+                choice = input(f"{INDENT}{YELLOW}Was wollen Sie tun?{RESET} ")
+                if choice == "gehen rückwärts":
                     secret_room()
                 else:
-                    wprint(f"{GREEN}Du kan inte göra det...{RESET}")
-        elif item_name == "brev":
-            wprint(f"Du plockar upp brevet och läser:\n{BOLD}{ITALIC}{PURPLE}Det har gått flera dagar, nej veckor, sedan jag senast sov. Om du läser detta måste du lämna nu. Det här stället driver mig till vansinne. Jag har inte listat ut vägen ut än, men jag tror att det har något att göra med spaken i det andra rummet...{RESET}")
+                    wprint(f"{GREEN}Sie können es nicht tun...{RESET}")
+        elif item_name == "Brief":
+            wprint(f"Sie heben den Brief auf und lesen ihn:\n{BOLD}{ITALIC}{PURPLE}Es ist schon einige Tage, nein Wochen, her, dass ich das letzte Mal geschlafen habe. Wenn Sie dies lesen, müssen Sie jetzt gehen. Dieser Ort macht mich wahnsinnig. Ich habe noch nicht herausgefunden, wie ich hier rauskomme, aber ich glaube, es hat etwas mit dem Hebel im anderen Raum zu tun{RESET}")
 
-        elif item_name == "dörr":
+        elif item_name == "Tür":
             while True:
-                wprint(f"Du vrider försiktigt på dörrhandtaget och dörren öppnas med ett gnisslande läte. Du ser en lång trappa framför dig, och när du tittar mot toppen skymtar du {GREEN}grönt gräs.{RESET}")
-                choice = input(f"{INDENT}Vad vill du göra? ")
-                if choice == "gå framåt":
+                wprint(f"Du drehst vorsichtig den Türgriff und die Tür öffnet sich mit einem Quietschen. Sie sehen eine lange Treppe vor sich, und als Sie nach oben blicken, sehen Sie {GREEN} grünes Gras{RESET}.")
+                choice = input(f"{INDENT}Was wollen Sie tun? ")
+                if choice == "gehen vorwärts":
                     good_end()
                 else:
-                    wprint(f"{GREEN}Du kan inte göra det...{RESET}")
+                    wprint(f"{GREEN}Sie können es nicht tun...{RESET}")
         
-        elif item_name == "papper":
-            wprint("Du plockar upp pappret. Det ser ut som om någon skrivit ned någon sorts karta på den.")
+        elif item_name == "Papier":
+            wprint("Du hebst das Papier auf. Es sieht aus, als hätte jemand eine Art Karte darauf geschrieben.")
             wprint(f"""\
                   {RED}
             |---|---|---|---|---|---|
@@ -128,138 +128,138 @@ class Traveller:
             
         elif item_name == "ja":
             while True:
-                wprint(f"Du går fram till mannen och säger:\n'Ja, jag vill gärna ta mig ut härifrån. Vet du var utgången är?'\nMannen tittar på dig och det ser ut som om han är på väg att skratta.\n'Dåre!' säger han. 'Tror du verkligen att jag, den stora trollkarlen Magico, skulle låta en så värdeful människa fly? Nej, du kom hit av en anledning, och den anledningen är att tjäna mig för evigt!'\n\n{RED}ERZÄHLER: {YELLOW}Magico vill slåss! Du behöver rulla tärning och rulla under ett visst nummer varje runda. Bäst av tre vinner, så du behöver vinna tre för att vinna. Om du å andra sidan förlorar två kommer det att få oönskade konsekvenser...{RESET}")
+                wprint(f"Sie gehen auf den Mann zu und sagen:\n'Ja, ich möchte von hier verschwinden. Wissen Sie, wo der Ausgang ist?'\nDer Mann sieht Sie an und es sieht so aus, als würde er gleich lachen.\n'Narr!' sagt er. 'Glaubst du wirklich, dass ich, der große Zauberer Magico, einen so wertvollen Menschen entkommen lassen würde? Nein, du bist aus einem bestimmten Grund hierher gekommen, und dieser Grund ist, mir für immer zu dienen!'\n\n{RED}ERZÄHLER: {YELLOW}Magico will kämpfen! Du musst würfeln und in jeder Runde unter eine bestimmte Zahl würfeln. Der Beste von drei gewinnt, du musst also drei gewinnen, um zu gewinnen. Wenn du hingegen zwei verlierst, hat das unerwünschte Folgen{RESET}")
                 combat()
 
-        elif item_name == "nej":
+        elif item_name == "nein":
             death_end()
 
-        elif item_name == "skelett":
-            wprint("Varför interagerar du med skelettet? Fåntratt.")
+        elif item_name == "Skelett":
+            wprint("Warum interagieren Sie mit dem Skelett? Dummheit.")
             
         else:
-            wprint(f"{GREEN}Du kan inte göra det...{RESET}")
+            wprint(f"{GREEN}Sie können es nicht tun...{RESET}")
 
 def good_end():
-    wprint(f"Du går ut genom dörren och går uppför trapporna. Allt eftersom du kommer längre och längre upp börjar du känna lukten av gräs, och skog, och natur. Till sist är du äntligen fri.\n\n{RED}GRATTIS {GREEN}{user_name}{YELLOW}! Du klarade av spelet! Visste du att det finns mer än ett slut? Spela igen för att se hur det också kunde ha slutat...{RESET}")
+    wprint(f"Du gehst aus der Tür und die Treppe hinauf. Je weiter du nach oben kommst, desto mehr riechst du das Gras, den Wald und die Natur. Endlich bist du frei.\n\n{RED}Herzlichen Glückwunsch! {GREEN}{user_name}{YELLOW}! Du hast es durch das Spiel geschafft! Wusstest du, dass es mehr als ein Ende gibt? Spiel noch einmal, um zu sehen, wie es auch hätte enden können...{RESET}")
     while True:
-        end_of_game = input(f"{INDENT}{YELLOW}Spela igen?\n{INDENT}Skriv{GREEN} ja{YELLOW} eller{GREEN} nej{YELLOW}.{RESET} ")
+        end_of_game = input(f"{INDENT}{YELLOW}Möchten Sie wieder Spielen?\n{INDENT}Schreib{GREEN} ja{YELLOW} oder{GREEN} nein{YELLOW}.{RESET} ")
         if end_of_game == "ja":
             restart()
             break
-        elif end_of_game == "nej":
+        elif end_of_game == "nein":
             quit_game()
             break
         else:
-            wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
+            wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
 
 def death_end():
-    wprint(f"Du går fram till mannen och säger:\n'Nej, jag skulle vilja stanna här och utforska lite till. Den här hålan var faktiskt ganska intressant.'\nMannen ser på dig och ser ut att vara glad över ditt svar. Han skrattar.\n'Bra. Varför stannar du inte för evigt isåfall?'\nInnan du vet ordet av har han kastat en förbannelse över dig och allting efter det är extremt otydligt...\n\n{RED}DU KLARADE SPELET!{YELLOW} Bra jobbat, {GREEN}{user_name}{YELLOW}. DU klarade spelet, men till vilket pris? Visste du att det finns mer än ett slut? Spela igen för att se hur det också kunde ha slutat...{RESET}")
+    wprint(f"Sie gehen auf den Mann zu und sagen:\n'Nein, ich würde gerne hier bleiben und noch etwas erkunden. Diese Müllhalde war eigentlich ganz interessant.'\nDer Mann sieht Sie an und scheint sich über Ihre Antwort zu freuen. Er lacht.\n'Es geht mir gut. Warum bleibst du dann nicht für immer?'\nEhe man sich versieht, hat er einen Fluch über einen verhängt, und alles, was danach kommt, ist äußerst unklar...\n\n{RED}SIE HABEN DAS SPIEL BESTANDEN!{YELLOW} Gut gemacht, {GREEN}{user_name}{YELLOW}. Sie haben das Spiel bestanden, aber zu welchem Preis? Wussten Sie, dass es mehr als ein Ende gibt? Spiel noch einmal, um zu sehen, wie es auch hätte enden können...{RESET}")
     while True:
-        end_of_game = input(f"{INDENT}{YELLOW}Spela igen?\n{INDENT}Skriv{GREEN} ja{YELLOW} eller{GREEN} nej{YELLOW}.{RESET} ")
+        end_of_game = input(f"{INDENT}{YELLOW}Möchten Sie wieder spielen?\n{INDENT}Schreib{GREEN} ja{YELLOW} oder{GREEN} nein{YELLOW}.{RESET} ")
         if end_of_game == "ja":
             restart()
             break
-        elif end_of_game == "nej":
+        elif end_of_game == "nein":
             quit_game()
             break
         else:
-            wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
+            wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
     
 def secret_room():
-    player = Traveller(locations["Det andra dörrummet"])
-    wprint("Du går till dörrummet")
+    player = Traveller(locations["Der andere Türzimmer"])
+    wprint("Sie gehen zum Türzimmer")
 
     while True:
         wprint(player.current_location.description)
-        command = input(f"{INDENT}{YELLOW}Vad vill du göra?{RESET} ")
+        command = input(f"{INDENT}{YELLOW}Was wollen Sie tun?{RESET} ")
 
-        if command.startswith("gå"):
+        if command.startswith("gehen"):
             try:
                 direction = command.split()[1]
                 player.move(direction)
             except IndexError:
-                wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
-        elif command.startswith("använd"):
+                wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
+        elif command.startswith("gebraucht"):
             try:
                 item = command.split()[1]
-                player.använd(item)
+                player.gebraucht(item)
             except IndexError:
-                wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
-        elif command.startswith("language") or command.startswith("språk"):
+                wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
+        elif command.startswith("language") or command.startswith("språk") or command.startswith("Sprachen"):
                 import escape
                 escape.pick_language()
         else:
-            wprint(f"{GREEN}Du kan inte göra det...{RESET}")
+            wprint(f"{GREEN}Sie können es nicht tun...{RESET}")
 
 def starter():
-    player = Traveller(locations["Dörrummet"])
+    player = Traveller(locations["Der Türzimmer"])
 
     while True:
         wprint(player.current_location.description)
-        command = input(f"{INDENT}{YELLOW}Vad vill du göra?{RESET} ")
+        command = input(f"{INDENT}{YELLOW}Was wollen Sie tun?{RESET} ")
 
-        if command.startswith("gå"):
+        if command.startswith("gehen"):
             try:
                 direction = command.split()[1]
                 player.move(direction)
             except IndexError:
-                wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
-        elif command.startswith("använd"):
+                wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
+        elif command.startswith("gebraucht"):
             try:
                 item = command.split()[1]
-                player.använd(item)
+                player.gebraucht(item)
             except IndexError:
-                wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
-        elif command.startswith("language") or command.startswith("språk"):
+                wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
+        elif command.startswith("language") or command.startswith("språk") or command.startswith("Sprachen"):
             import escape
             escape.pick_language()
         else:
-            wprint(f"{GREEN}Du kan inte göra det...{RESET}")
+            wprint(f"{GREEN}Sie können es nicht tun...{RESET}")
 
 def combat():
     while True:
         sides = 20
-        input(f"{INDENT}{RED}ERZÄHLER: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}15{YELLOW} (d20).{RESET}")
+        input(f"{INDENT}{RED}ERZÄHLER: {YELLOW}Drücken Sie die Eingabetaste, um zu würfeln. Sie müssen weniger als {GREEN}15{YELLOW} würfeln (d20).{RESET}")
         result = random.randint(1, sides)
-        wprint(f"{RED}ERZÄHLER: {YELLOW}Du rullade {GREEN}{result}{RESET}")
+        wprint(f"{RED}ERZÄHLER: {YELLOW}Sie haben {GREEN}{result}{YELLOW} gewürfelt.{RESET}")
         if result <= 15:
-            wprint("Du springer fort mot trollkarlen och slår honom i ansiktet. Han stapplar bakåt och ger dig ett tillfälle för ytterligare en attack.")
+            wprint("Du rennst schnell auf den Zauberer zu und schlägst ihm ins Gesicht. Er taumelt nach hinten und gibt dir die Gelegenheit zu einem weiteren Angriff.")
             combat_r2win()
         else:
-            wprint("Trollkarlen ser att du tvekar och kastar en trollformel mot dig! Se upp, efter ett till misslyckat tärningskast kommer du inte kunna ta dig ut härifrån!")
+            wprint("Der Zauberer sieht dein Zögern und belegt dich mit einem Zauberspruch! Pass auf, nach einem weiteren misslungenen Würfelwurf kommst du hier nicht mehr raus!")
             combat_r2lose()
 
 def combat_r2win():
     while True:
         sides = 20
-        input(f"{INDENT}{RED}ERZÄHLER: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}10{YELLOW} (d20).{RESET}")
+        input(f"{INDENT}{RED}ERZÄHLER: {YELLOW}Drücken Sie die Eingabetaste, um zu würfeln. Sie müssen weniger als {GREEN}10{YELLOW} würfeln (d20).{RESET}")
         result = random.randint(1, sides)
-        wprint(f"{RED}ERZÄHLER: {YELLOW}Du rullade {GREEN}{result}{RESET}")
+        wprint(f"{RED}ERZÄHLER: {YELLOW}Sie haben {GREEN}{result}{YELLOW} gewürfelt.{RESET}")
         if result <= 10:
-            wprint(f"Du sparkar Magico i magen. Han faller till marken och det ser ut som att han är medvetslös. En mysyisk {BLUE}blå rök{RESET} stiger från hans kropp och ut i luften. Plötsligt är du inte längre i den mörka hålan du var i förut, utan du står istället på ett fält täckt av {GREEN}grönt gräs{RESET} och du kan känna solens varma strålar skina på ditt ansikte.\n\n{RED}GRATTIS {GREEN}{user_name}{YELLOW}! Du klarade av spelet! Visste du att det finns mer än ett slut? Spela igen för att ta reda på hur det också kunde ha slutat...{RESET}")
+            wprint(f"Sie tritten Magico in den Magen. Er fällt zu Boden und es sieht so aus, als ob er bewusstlos ist. Ein mystischer {BLUE}blauer Rauch{RESET} steigt von seinem Körper in die Luft auf. Plötzlich sind Sie nicht mehr in dem dunkeln Loch, in dem Sie vorher waren, sondern Sie stehen auf einem Feld mit {GREEN}grünem Gras{RESET} und Sie können die warmen Sonnenstrahlen auf deinem Gesicht spüren.\n\n{RED}HERZLICHEN GLÜCKWUNSCH! {GREEN}{user_name}{YELLOW}! Sie haben es durch das Spiel geschafft! Wussten Sie, dass es mehr als ein Ende gibt? Spiel noch einmal, um herauszufinden, wie es auch hätte enden können...{RESET}")
             while True:
-                end_of_game = input(f"{INDENT}{YELLOW}Spela igen?\n{INDENT}Skriv{GREEN} ja{YELLOW} eller{GREEN} nej{YELLOW}.{RESET} ")
+                end_of_game = input(f"{INDENT}{YELLOW}Möchten Sie wieder spielen?\n{INDENT}Schreib{GREEN} ja{YELLOW} oder{GREEN} nein{YELLOW}.{RESET} ")
                 if end_of_game == "ja":
                     restart()
                     break
-                elif end_of_game == "nej":
+                elif end_of_game == "nein":
                     quit_game()
                     break
                 else:
-                    wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
+                    wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
         else:
-            wprint("Trollkarlen ser att du tvekar och kastar en trollformel mot dig! Se upp, efter ett till misslyckat tärningskast kommer du inte kunna ta dig ut härifrån!")
+            wprint("Der Zauberer sieht dein Zögern und belegt dich mit einem Zauberspruch! Pass auf, nach einem weiteren misslungenen Würfelwurf kommst du hier nicht mehr raus!")
             combat_r3()
 
 def combat_r2lose():
     while True:
         sides = 20
-        input(f"{INDENT}{RED}ERZÄHLER: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}10{YELLOW} (d20).{RESET}")
+        input(f"{INDENT}{RED}ERZÄHLER: {YELLOW}Drücken Sie die Eingabetaste, um zu würfeln. Sie müssen weniger als {GREEN}10{YELLOW} würfeln (d20).{RESET}")
         result = random.randint(1, sides)
-        wprint(f"{RED}ERZÄHLER: {YELLOW}Du rullade {GREEN}{result}{RESET}")
+        wprint(f"{RED}ERZÄHLER: {YELLOW}Sie haben {GREEN}{result}{YELLOW} gewürfelt.{RESET}")
         if result <= 10:
-            wprint("Du lyckas böja hans händer baklänges. Trollkarlen skriker av smärta och du hör hur benen i hans handleder knakar. Magico ser på dig med ursinne i blicken. Förbered din nästa attack!")
+            wprint("Sie schaffen es, seine Hände nach hinten zu biegen. Der Magier schreit vor Schmerz auf und Sie hören die Knochen in seinen Handgelenken knarren. Magico sieht dich mit Zorn in seinen Augen an. Bereite Ihrem nächsten Angriff vor!")
             combat_r3()
         else:
             wprint(f"Magico agerar snabbt och kastar en förbannelse på dig. Det är det sista du kommer ihåg. Allt annat är otydligt och det känns som om din kropp inte riktigt lyder dig. Du blev trollkarlens slav\n\n{RED}DU KLARADE SPELET! {YELLOW}Bra jobbat, {GREEN}{user_name}{YELLOW} Du klarade spelet, men till vilket pris?\nVisste du att det finns mer än ett slut? Spela spelet igen för att ta reda på vilka de andra är...{RESET}")
