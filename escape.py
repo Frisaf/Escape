@@ -245,7 +245,7 @@ def combat():
             wprint("You sprint quickly towards the wizard and punch him in the face. He staggers backwards and gives you another oppurtunity to attack.")
             combat_r2win()
         else:
-            wprint("The wizard sees you hesitating and casts a spell on you! Watch out, one more fail and you will have zero to no chance to get out of here!")
+            wprint("The wizard sees you hesitating and casts a spell on you! Watch out, one more fail and you will have little to no chance to get out of here!")
             combat_r2lose()
 
 def combat_r2win():
