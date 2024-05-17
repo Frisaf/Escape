@@ -26,7 +26,7 @@ def wprint(text, width = 80):
 
 def intro():
     global user_name
-    user_name = input(f"{INDENT}{RED}UPPLÄSARE:{YELLOW} Välkommen till 'Escape!'! Vi börjar med namn.\n{INDENT}Vad heter du?{RESET} ")
+    user_name = input(f"{INDENT}{RED}UPPLÄSARE:{YELLOW} Välkommen till 'Escape!'! Vi börjar med ditt namn.\n{INDENT}Vad heter du?{RESET} ")
     wprint(f"{RED}UPPLÄSARE: {RESET}{YELLOW}Fantastiskt! Välkommen, {GREEN}{user_name}{YELLOW}! Innan vi startar spelet så finns det några saker som du behöver veta.\nFörst och främst så finns det två typer av kommandon: {GREEN}använd{YELLOW} och {GREEN}gå{YELLOW}. Kommandot använd gör så att du interagerar med olika saker i rummet, så om du till exempel vill interagera med äpplet så skulle du skriva {GREEN}'använd äpple'{YELLOW} i terminalen och om du vill flytta dig till höger så skriver du {GREEN}'gå höger'{YELLOW} eller {GREEN}g höger{YELLOW } i terminalen.{YELLOW} Om du går bakåt kommer du alltid att gå tillbaka till det föregående rummet om ingenting annat sägs. Tillgängliga kommandon: {GREEN}höger (h), vänster (v), framåt (f), bakåt (b)\n{YELLOW}Föremål som du kan interagera med är skrivna med {CYAN}turkos{YELLOW} text.\nMed låt oss nu start spelet!{RESET}")
     wprint("")
     wprint("Du vaknar i ett dammigt rum. Du kommer inte ihåg vad som hände förra natten. Hur kom du ens hit? Allt du vet just nu är att du måste ta dig ut härifrån, snabt.")
@@ -103,7 +103,7 @@ class Traveller:
             while True:
                 wprint("Du drar i spaken och hör en högljudd duns någon annan stans...")
                 choice = input(f"{INDENT}{YELLOW}Vad vill du göra?{RESET} ").lower()
-                if choice == "gå bakåt":
+                if choice == "gå bakåt" or "g b" or "g bakåt" or "gå b":
                     secret_room()
                 else:
                     wprint(f"{GREEN}Du kan inte göra det...{RESET}")
@@ -114,7 +114,7 @@ class Traveller:
             while True:
                 wprint(f"Du vrider försiktigt på dörrhandtaget och dörren öppnas med ett gnisslande läte. Du ser en lång trappa framför dig, och när du tittar mot toppen skymtar du {GREEN}grönt gräs.{RESET}")
                 choice = input(f"{INDENT}Vad vill du göra? ").lower()
-                if choice == "gå framåt":
+                if choice == "gå framåt" or "g f" or "g framåt" or "gå f":
                     good_end()
                 else:
                     wprint(f"{GREEN}Du kan inte göra det...{RESET}")
@@ -122,7 +122,7 @@ class Traveller:
         elif item_name == "papper":
             wprint("Du plockar upp pappret. Det ser ut som om någon skrivit ned någon sorts karta på den.")
             wprint(f"""\
-                  {RED}
+                  {PURPLE}
             |---|---|---|---|---|---|
             |   |   |   |   |   |   |
             |---|---|---|---|---|---|
@@ -312,7 +312,7 @@ def combat_r3():
                     wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
 
         else:
-            wprint(f"Magico agerar snabbt och kastar en förbannelse på dig. Det är det sista du kommer ihåg. Allt annat är otydligt och det känns som om din kropp inte riktigt lyder dig. Du blev trollkarlens slav\n\n{RED}DU KLARADE SPELET!{YELLOW}Bra jobbat, {GREEN}{user_name}{YELLOW} Du klarade spelet, men till vilket pris?\nVisste du att det finns mer än ett slut? Spela spelet igen för att ta reda på vilka de andra är...{RESET}")
+            wprint(f"Magico agerar snabbt och kastar en förbannelse på dig. Det är det sista du kommer ihåg. Allt annat är otydligt och det känns som om din kropp inte riktigt lyder dig. Du blev trollkarlens slav\n\n{RED}DU KLARADE SPELET!{YELLOW} Bra jobbat, {GREEN}{user_name}{YELLOW} Du klarade spelet, men till vilket pris?\nVisste du att det finns mer än ett slut? Spela spelet igen för att ta reda på vilka de andra är...{RESET}")
             while True:
                 end_of_game = input(f"{INDENT}{YELLOW}Spela igen?\n{INDENT}Skriv{GREEN} ja{YELLOW} eller{GREEN} nej{YELLOW}.{RESET} ").lower()
                 if end_of_game == "ja":

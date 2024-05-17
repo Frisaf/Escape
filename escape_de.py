@@ -103,7 +103,7 @@ class Traveller:
             while True:
                 wprint("Sie ziehen den Hebel und hören irgendwo anders einen lauten Knall...")
                 choice = input(f"{INDENT}{YELLOW}Was wollen Sie tun?{RESET} ").lower()
-                if choice == "gehen rückwärts":
+                if choice == "gehen rückwärts" or "ge rw" or "gehen rw" or "ge rückwärts":
                     secret_room()
                 else:
                     wprint(f"{GREEN}Sie können es nicht tun...{RESET}")
@@ -115,7 +115,7 @@ class Traveller:
             while True:
                 wprint(f"Du drehst vorsichtig den Türgriff und die Tür öffnet sich mit einem Quietschen. Sie sehen eine lange Treppe vor sich, und als Sie nach oben blicken, sehen Sie {GREEN} grünes Gras{RESET}.")
                 choice = input(f"{INDENT}Was wollen Sie tun? ").lower()
-                if choice == "gehen vorwärts":
+                if choice == "gehen vorwärts" or "ge v" or "gehen v" or "ge vorwärts":
                     good_end()
                 else:
                     wprint(f"{GREEN}Sie können es nicht tun...{RESET}")
@@ -123,7 +123,7 @@ class Traveller:
         elif item_name == "papier":
             wprint("Du hebst das Papier auf. Es sieht aus, als hätte jemand eine Art Karte darauf geschrieben.")
             wprint(f"""\
-                  {RED}
+                  {PURPLE}
             |---|---|---|---|---|---|
             |   |   |   |   |   |   |
             |---|---|---|---|---|---|
@@ -191,7 +191,7 @@ def secret_room():
         wprint(player.current_location.description)
         command = input(f"{INDENT}{YELLOW}Was wollen Sie tun?{RESET} ").lower()
 
-        if command.startswith("gehen") or command.startswith("g"):
+        if command.startswith("gehen") or command.startswith("ge"):
             try:
                 direction = command.split()[1]
                 direction = alt_directions(direction)

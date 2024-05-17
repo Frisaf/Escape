@@ -124,7 +124,7 @@ class Traveller:
             while True:
                 wprint("You pull the lever and hear a loud thud somewhere else...")
                 choice = input(f"{INDENT}{YELLOW}What do you want to do?{RESET} ").lower()
-                if choice == "move backwards":
+                if choice == "move backwards" or "m b" or "move b" or "m backwards":
                     secret_room()
                 else:
                     wprint(f"{GREEN}You cannot do that...{RESET}")
@@ -135,7 +135,7 @@ class Traveller:
             while True:
                 wprint(f"You carefully turn the door knob and the door opens with a squeeking noise. There is now a long stair case in front of you. As you look at the top, you catch a glimpse of {GREEN}green grass.{RESET}")
                 choice = input(f"{INDENT}What do you want to do? ").lower()
-                if choice == "move forwards":
+                if choice == "move forwards" or "m f" or "move f" or "m forwards":
                     good_end()
                 else:
                     wprint(f"{GREEN}You cannot do that...{RESET}")
