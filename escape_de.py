@@ -27,7 +27,7 @@ def wprint(text, width = 80):
 def intro():
     global user_name
     user_name = input(f"{INDENT}{RED}ERZÄHLER{YELLOW} Willkommen bei 'Escape!'! Fangen wir mit deinem Namen an, Reisender\n{INDENT}Wie heißen Sie?{RESET} ")
-    wprint(f"{RED}ERZÄHLER: {RESET}{YELLOW}Toll! Willkommen, {GREEN}{user_name}{YELLOW}! Bevor wir mit dem Spiel beginnen, gibt es einige Dinge, die Sie wissen müssen.\nZunächst einmal gibt es zwei Arten von Befehlen: {GREEN}gebraucht{YELLOW} und {GREEN}gehen{YELLOW}. Mit dem Befehl gebraucht können Sie mit verschiedenen Dingen im Raum interagieren. Wenn Sie zum Beispiel mit dem Apfel interagieren wollen, würden Sie {GREEN}'gebraucht Apfel'{YELLOW} im Terminal ein und wenn Sie nach rechts gehen wollen, geben Sie {GREEN}'gehen rechts'{YELLOW} im Terminal. Wenn Sie rückwärts gehen, kehren Sie immer in den vorherigen Raum zurück, sofern nicht anders angegeben. Objekte, mit denen Sie interagieren können, werden mit {CYAN}zyan{YELLOW}.\nAber jetzt lasst uns das Spiel beginnen!{RESET}")
+    wprint(f"{RED}ERZÄHLER: {RESET}{YELLOW}Toll! Willkommen, {GREEN}{user_name}{YELLOW}! Bevor wir mit dem Spiel beginnen, gibt es einige Dinge, die Sie wissen müssen.\nZunächst einmal gibt es zwei Arten von Befehlen: {GREEN}gebraucht{YELLOW} und {GREEN}gehen{YELLOW}. Mit dem Befehl gebraucht können Sie mit verschiedenen Dingen im Raum interagieren. Wenn Sie zum Beispiel mit dem Apfel interagieren wollen, würden Sie {GREEN}'gebraucht Apfel'{YELLOW} im Terminal ein und wenn Sie nach rechts gehen wollen, geben Sie {GREEN}'gehen rechts'{YELLOW} oder {GREEN}ge rechts{YELLOW} im Terminal. Wenn Sie rückwärts gehen, kehren Sie immer in den vorherigen Raum zurück, sofern nicht anders angegeben. Verfügbare Richtungen:{GREEN} rechts (r), links (l), rückwärts (r), vorwärts (v){YELLOW}\nObjekte, mit denen Sie interagieren können, werden mit {CYAN}cyan{YELLOW}.\nAber jetzt lasst uns das Spiel beginnen!{RESET}")
     wprint("")
     wprint("Sie wachen in einem staubigen Zimmer auf. Du kannst dich nicht erinnern, was letzte Nacht passiert ist. Wie sind Sie überhaupt hierher gekommen? Alles, was du im Moment weißt, ist, dass du von hier verschwinden musst, und zwar schnell.")
     starter()
@@ -37,6 +37,19 @@ class Location:
         self.name = name
         self.description = description
         self.directions = directions
+
+dir_aliases = {
+    "rechts": "r",
+    "links": "l",
+    "vorwärts": "v",
+    "rückwärts": "rw"
+}
+
+def alt_directions(direction):
+    for main_dir, aliases in dir_aliases.items():
+        if direction in aliases:
+            return main_dir
+    return None
 
 locations = {
     ### STARTER ROOMS ###
@@ -67,7 +80,7 @@ locations = {
     "Correct tile 15": Location("zu einer neuen Fliese", "", {"vorwärts": "Correct tile 16", "links": "Death", "rückwärts": "Correct tile 14"}),
     "Correct tile 16": Location("zu einer neuen Fliese", "", {"vorwärts": "Death", "rechts": "Letzte Tür", "links": "Death", "rückwärts": "Correct tile 15"}),
     ### WIZARD ROOM ITEMS ###
-    "Das Zimmer des Zauberers": Location("links", f"Du gehst weiter in diese Richtung und kommst bald darauf in einen kleinen, aber gut beleuchteten Raum. An den Wänden stehen Tische, auf denen Flaschen und Papiere ausgebreitet sind, und in der Mitte des Raumes steht ein großer Mann mit einem langen grauen Bart. Er trägt einen langen violetten Mantel, der fast den Boden berührt, und auf dem Kopf einen langen kegelförmigen Hut.\n'Oh, gut', sagt er. 'Ich habe darauf gewartet, dass jemand Neues in meine Den kommt... Oder ich meine, du willst doch hier raus, oder?\n\n{RED}ERZÄHLER:{RESET} {YELLOW}Sie haben hier zwei Möglichkeiten: ja oder nein. Schreiben Sie {CYAN}'gebraucht ja'{YELLOW} oder {CYAN}'gebraucht nein'{YELLOW} in das Terminal ein, um fortzufahren. Wenn Sie diesen Mann noch nicht treffen willst, können Sie {GREEN}'gehen rückwärts'{YELLOW} um zur Kreuzung im Korridor zurückzukehren.{RESET}", {"ja": "Answer yes", "nej": "Answer no", "rückwärts": "Die Korridore"}),
+    "Das Zimmer des Zauberers": Location("links", f"Du gehst weiter in diese Richtung und kommst bald darauf in einen kleinen, aber gut beleuchteten Raum. An den Wänden stehen Tische, auf denen Flaschen und Papiere ausgebreitet sind, und in der Mitte des Raumes steht ein großer Mann mit einem langen grauen Bart. Er trägt einen langen violetten Mantel, der fast den Boden berührt, und auf dem Kopf einen langen kegelförmigen Hut.\n'Oh, gut', sagt er. 'Ich habe darauf gewartet, dass jemand Neues in meine Den kommt... Oder ich meine, du willst doch hier raus, oder?\n\n{RED}ERZÄHLER:{RESET} {YELLOW}Sie haben hier zwei Möglichkeiten: ja oder nein. Schreiben Sie {CYAN}'gebraucht ja'{YELLOW} oder {CYAN}'gebraucht nein'{YELLOW} in das Terminal ein, um fortzufahren. Wenn Sie diesen Mann noch nicht treffen willst, können Sie {GREEN}'gehen rückwärts'{YELLOW} um zur Kreuzung im Korridor zurückzukehren.{RESET}", {"rückwärts": "Die Korridore"}),
     ### DEATH ###
     "Death": Location("zu einer neuen Fliese", f"Sie hören ein Klicken und dann eine laute Explosion. Alles wird schwarz...\n{YELLOW}GAME OVER! Schreiben Sie 'gehen rückwärts' um von Ihren letzten Speicherort neu zu beginnen.{RESET}", {"rückwärts": "Das Puzzlezimmer"})
 }
@@ -86,27 +99,28 @@ class Traveller:
             wprint(f"{GREEN}Sie können es nicht tun...{RESET}")
     
     def gebraucht(self, item_name):
-        if item_name == "spak":
+        if item_name == "hebel":
             while True:
                 wprint("Sie ziehen den Hebel und hören irgendwo anders einen lauten Knall...")
-                choice = input(f"{INDENT}{YELLOW}Was wollen Sie tun?{RESET} ")
+                choice = input(f"{INDENT}{YELLOW}Was wollen Sie tun?{RESET} ").lower()
                 if choice == "gehen rückwärts":
                     secret_room()
                 else:
                     wprint(f"{GREEN}Sie können es nicht tun...{RESET}")
-        elif item_name == "Brief":
+
+        elif item_name == "brief":
             wprint(f"Sie heben den Brief auf und lesen ihn:\n{BOLD}{ITALIC}{PURPLE}Es ist schon einige Tage, nein Wochen, her, dass ich das letzte Mal geschlafen habe. Wenn Sie dies lesen, müssen Sie jetzt gehen. Dieser Ort macht mich wahnsinnig. Ich habe noch nicht herausgefunden, wie ich hier rauskomme, aber ich glaube, es hat etwas mit dem Hebel im anderen Raum zu tun{RESET}")
 
-        elif item_name == "Tür":
+        elif item_name == "tür":
             while True:
                 wprint(f"Du drehst vorsichtig den Türgriff und die Tür öffnet sich mit einem Quietschen. Sie sehen eine lange Treppe vor sich, und als Sie nach oben blicken, sehen Sie {GREEN} grünes Gras{RESET}.")
-                choice = input(f"{INDENT}Was wollen Sie tun? ")
+                choice = input(f"{INDENT}Was wollen Sie tun? ").lower()
                 if choice == "gehen vorwärts":
                     good_end()
                 else:
                     wprint(f"{GREEN}Sie können es nicht tun...{RESET}")
         
-        elif item_name == "Papier":
+        elif item_name == "papier":
             wprint("Du hebst das Papier auf. Es sieht aus, als hätte jemand eine Art Karte darauf geschrieben.")
             wprint(f"""\
                   {RED}
@@ -134,8 +148,11 @@ class Traveller:
         elif item_name == "nein":
             death_end()
 
-        elif item_name == "Skelett":
+        elif item_name == "skelett":
             wprint("Warum interagieren Sie mit dem Skelett? Dummheit.")
+        
+        elif item_name == "cyan":
+            wprint(f"{CYAN}Dieser Text ist in Cyan geschrieben. Spielen Sie das Spiel jetzt weiter. Warum haben Sie überhaupt mit diesem Ding interagiert?")
             
         else:
             wprint(f"{GREEN}Sie können es nicht tun...{RESET}")
@@ -143,7 +160,7 @@ class Traveller:
 def good_end():
     wprint(f"Du gehst aus der Tür und die Treppe hinauf. Je weiter du nach oben kommst, desto mehr riechst du das Gras, den Wald und die Natur. Endlich bist du frei.\n\n{RED}Herzlichen Glückwunsch! {GREEN}{user_name}{YELLOW}! Du hast es durch das Spiel geschafft! Wusstest du, dass es mehr als ein Ende gibt? Spiel noch einmal, um zu sehen, wie es auch hätte enden können...{RESET}")
     while True:
-        end_of_game = input(f"{INDENT}{YELLOW}Möchten Sie wieder Spielen?\n{INDENT}Schreib{GREEN} ja{YELLOW} oder{GREEN} nein{YELLOW}.{RESET} ")
+        end_of_game = input(f"{INDENT}{YELLOW}Möchten Sie wieder Spielen?\n{INDENT}Schreib{GREEN} ja{YELLOW} oder{GREEN} nein{YELLOW}.{RESET} ").lower()
         if end_of_game == "ja":
             restart()
             break
@@ -156,7 +173,7 @@ def good_end():
 def death_end():
     wprint(f"Sie gehen auf den Mann zu und sagen:\n'Nein, ich würde gerne hier bleiben und noch etwas erkunden. Diese Müllhalde war eigentlich ganz interessant.'\nDer Mann sieht Sie an und scheint sich über Ihre Antwort zu freuen. Er lacht.\n'Es geht mir gut. Warum bleibst du dann nicht für immer?'\nEhe man sich versieht, hat er einen Fluch über einen verhängt, und alles, was danach kommt, ist äußerst unklar...\n\n{RED}SIE HABEN DAS SPIEL BESTANDEN!{YELLOW} Gut gemacht, {GREEN}{user_name}{YELLOW}. Sie haben das Spiel bestanden, aber zu welchem Preis? Wussten Sie, dass es mehr als ein Ende gibt? Spiel noch einmal, um zu sehen, wie es auch hätte enden können...{RESET}")
     while True:
-        end_of_game = input(f"{INDENT}{YELLOW}Möchten Sie wieder spielen?\n{INDENT}Schreib{GREEN} ja{YELLOW} oder{GREEN} nein{YELLOW}.{RESET} ")
+        end_of_game = input(f"{INDENT}{YELLOW}Möchten Sie wieder spielen?\n{INDENT}Schreib{GREEN} ja{YELLOW} oder{GREEN} nein{YELLOW}.{RESET} ").lower()
         if end_of_game == "ja":
             restart()
             break
@@ -172,21 +189,22 @@ def secret_room():
 
     while True:
         wprint(player.current_location.description)
-        command = input(f"{INDENT}{YELLOW}Was wollen Sie tun?{RESET} ")
+        command = input(f"{INDENT}{YELLOW}Was wollen Sie tun?{RESET} ").lower()
 
-        if command.startswith("gehen"):
+        if command.startswith("gehen") or command.startswith("g"):
             try:
                 direction = command.split()[1]
+                direction = alt_directions(direction)
                 player.move(direction)
             except IndexError:
                 wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
-        elif command.startswith("gebraucht"):
+        elif command.startswith("gebraucht") or command.startswith("gb"):
             try:
                 item = command.split()[1]
                 player.gebraucht(item)
             except IndexError:
                 wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
-        elif command.startswith("language") or command.startswith("språk") or command.startswith("Sprachen"):
+        elif command.startswith("language") or command.startswith("språk") or command.startswith("sprachen"):
                 import escape
                 escape.pick_language()
         else:
@@ -197,21 +215,22 @@ def starter():
 
     while True:
         wprint(player.current_location.description)
-        command = input(f"{INDENT}{YELLOW}Was wollen Sie tun?{RESET} ")
+        command = input(f"{INDENT}{YELLOW}Was wollen Sie tun?{RESET} ").lower()
 
-        if command.startswith("gehen"):
+        if command.startswith("gehen") or command.startswith("ge"):
             try:
                 direction = command.split()[1]
+                direction = alt_directions(direction)
                 player.move(direction)
             except IndexError:
                 wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
-        elif command.startswith("gebraucht"):
+        elif command.startswith("gebraucht") or command.startswith("gb"):
             try:
                 item = command.split()[1]
                 player.gebraucht(item)
             except IndexError:
                 wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
-        elif command.startswith("language") or command.startswith("språk") or command.startswith("Sprachen"):
+        elif command.startswith("language") or command.startswith("språk") or command.startswith("sprachen"):
             import escape
             escape.pick_language()
         else:
@@ -239,7 +258,7 @@ def combat_r2win():
         if result <= 10:
             wprint(f"Sie tritten Magico in den Magen. Er fällt zu Boden und es sieht so aus, als ob er bewusstlos ist. Ein mystischer {BLUE}blauer Rauch{RESET} steigt von seinem Körper in die Luft auf. Plötzlich sind Sie nicht mehr in dem dunkeln Loch, in dem Sie vorher waren, sondern Sie stehen auf einem Feld mit {GREEN}grünem Gras{RESET} und Sie können die warmen Sonnenstrahlen auf deinem Gesicht spüren.\n\n{RED}HERZLICHEN GLÜCKWUNSCH! {GREEN}{user_name}{YELLOW}! Sie haben es durch das Spiel geschafft! Wussten Sie, dass es mehr als ein Ende gibt? Spiel noch einmal, um herauszufinden, wie es auch hätte enden können...{RESET}")
             while True:
-                end_of_game = input(f"{INDENT}{YELLOW}Möchten Sie wieder spielen?\n{INDENT}Schreib{GREEN} ja{YELLOW} oder{GREEN} nein{YELLOW}.{RESET} ")
+                end_of_game = input(f"{INDENT}{YELLOW}Möchten Sie wieder spielen?\n{INDENT}Schreib{GREEN} ja{YELLOW} oder{GREEN} nein{YELLOW}.{RESET} ").lower()
                 if end_of_game == "ja":
                     restart()
                     break
@@ -262,62 +281,62 @@ def combat_r2lose():
             wprint("Sie schaffen es, seine Hände nach hinten zu biegen. Der Magier schreit vor Schmerz auf und Sie hören die Knochen in seinen Handgelenken knarren. Magico sieht dich mit Zorn in seinen Augen an. Bereite Ihrem nächsten Angriff vor!")
             combat_r3()
         else:
-            wprint(f"Magico agerar snabbt och kastar en förbannelse på dig. Det är det sista du kommer ihåg. Allt annat är otydligt och det känns som om din kropp inte riktigt lyder dig. Du blev trollkarlens slav\n\n{RED}DU KLARADE SPELET! {YELLOW}Bra jobbat, {GREEN}{user_name}{YELLOW} Du klarade spelet, men till vilket pris?\nVisste du att det finns mer än ett slut? Spela spelet igen för att ta reda på vilka de andra är...{RESET}")
+            wprint(f"Magico handelt schnell und belegt dich mit einem Fluch. Das ist das letzte, woran Sie sich erinnern. Alles andere ist verschwommen und es fühlt sich an, als würde dein Körper dir nicht wirklich gehorchen. Du wurdest ein Sklave des Magiers\n\n{RED}SIE HABEN DAS SPIEL BESTANDEN! {YELLOW}Gut gemacht, {GREEN}{user_name}{YELLOW} Du hast das Spiel bestanden, aber zu welchem Preis?\nWussten Sie, dass es mehr als ein Ende gibt? Spielen Sie das Spiel noch einmal, um herauszufinden, wer die anderen sind...{RESET}")
             while True:
-                end_of_game = input(f"{INDENT}{YELLOW}Spela igen?\n{INDENT}Skriv{GREEN} ja{YELLOW} eller{GREEN} nej{YELLOW}.{RESET} ")
+                end_of_game = input(f"{INDENT}{YELLOW}Möchten Sie wieder spielen?\n{INDENT}Schreib{GREEN} ja{YELLOW} oder{GREEN} nein{YELLOW}.{RESET} ").lower()
                 if end_of_game == "ja":
                     restart()
                     break
-                elif end_of_game == "nej":
+                elif end_of_game == "nein":
                     quit_game()
                     break
                 else:
-                    wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
+                    wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
 
 def combat_r3():
     while True:
         sides = 20
-        input(f"{INDENT}{RED}ERZÄHLER: {YELLOW}Tryck enter för att kasta tärningen. Du behöver rulla lägre än {GREEN}5{YELLOW} (d20).{RESET}")
+        input(f"{INDENT}{RED}ERZÄHLER: {YELLOW}Drücken Sie die Eingabetaste, um zu würfeln. Sie müssen weniger als {GREEN}5{YELLOW} würfeln (d20).{RESET}")
         result = random.randint(1, sides)
         wprint(f"{RED}ERZÄHLER: {YELLOW}You rolled a {GREEN}{result}{RESET}")
         if result <= 5:
-            wprint(f"Du sparkar Magico i magen. Han faller till marken och det ser ut som att han är medvetslös. En mysyisk {BLUE}blå rök{RESET} stiger från hans kropp och ut i luften. Plötsligt är du inte längre i den mörka hålan du var i förut, utan du står istället på ett fält täckt av {GREEN}grönt gräs{RESET} och du kan känna solens varma strålar skina på ditt ansikte.\n\n{RED}GRATTIS {GREEN}{user_name}{YELLOW}! Du klarade av spelet! Visste du att det finns mer än ett slut? Spela igen för att ta reda på hur det också kunde ha slutat...{RESET}")
+            wprint(f"Du trittst Magico in den Magen. Er fällt zu Boden und es sieht so aus, als ob er bewusstlos ist. Ein mystischer{BLUE} blauer Rauch{RESET} steigt von seinem Körper in die Luft. Plötzlich bist du nicht mehr in dem dunklen Loch, in dem du vorher warst, sondern du stehst auf einer Wiese mit {GREEN} grünem Gras {RESET}und spürst die warmen Strahlen der Sonne auf deinem Gesicht.\n\n{RED}Herzlichen Glückwunsch! {GREEN}{user_name}{YELLOW}! Sie haben es durch das Spiel geschafft! Wussten Sie, dass es mehr als ein Ende gibt? Spiel noch einmal, um herauszufinden, wie es auch hätte enden können...{RESET}")
             while True:
-                end_of_game = input(f"{INDENT}{YELLOW}Spela igen?\n{INDENT}Skriv{GREEN} ja{YELLOW} eller{GREEN} nej{YELLOW}.{RESET} ")
+                end_of_game = input(f"{INDENT}{YELLOW}Möchten Sie wieder spielen?\n{INDENT}Schreib{GREEN} ja{YELLOW} oder{GREEN} nein{YELLOW}.{RESET} ").lower()
                 if end_of_game == "ja":
                     restart()
                     break
-                elif end_of_game == "nej":
+                elif end_of_game == "nein":
                     quit_game()
                     break
                 else:
                     wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
 
         else:
-            wprint(f"Magico agerar snabbt och kastar en förbannelse på dig. Det är det sista du kommer ihåg. Allt annat är otydligt och det känns som om din kropp inte riktigt lyder dig. Du blev trollkarlens slav\n\n{RED}DU KLARADE SPELET!{YELLOW}Bra jobbat, {GREEN}{user_name}{YELLOW} Du klarade spelet, men till vilket pris?\nVisste du att det finns mer än ett slut? Spela spelet igen för att ta reda på vilka de andra är...{RESET}")
+            wprint(f"Magico handelt schnell und belegt dich mit einem Fluch.Das ist das letzte, woran Sie sich erinnern. Alles andere ist verschwommen und es fühlt sich an, als würde dein Körper dir nicht wirklich gehorchen. Sie wurden ein Sklave des Magiers\n\n{RED}DU KLARADE SPELET!{YELLOW}Gut gemacht, {GREEN}{user_name}{YELLOW} Du hast das Spiel bestanden, aber zu welchem Preis?\nWussten Sie, dass es mehr als ein Ende gibt? Spielen Sie das Spiel noch einmal, um herauszufinden, wer die anderen sind...{RESET}")
             while True:
-                end_of_game = input(f"{INDENT}{YELLOW}Play again?\n{INDENT}Type{GREEN} yes{YELLOW} or{GREEN} no{YELLOW}.{RESET} ")
-                if end_of_game == "yes":
+                end_of_game = input(f"{INDENT}{YELLOW}Möchten Sie wieder spielen?\n{INDENT}Schreib{GREEN} ja{YELLOW} oder{GREEN} nein{YELLOW}.{RESET} ").lower()
+                if end_of_game == "ja":
                     restart()
                     break
-                elif end_of_game == "no":
+                elif end_of_game == "nein":
                     quit_game()
                     break
                 else:
-                    wprint(f"{GREEN}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
+                    wprint(f"{GREEN}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
 
 def restart():
-    wprint(f"{GREEN}Startar om spelet!{RESET}")
+    wprint(f"{GREEN}Starten Sie das Spiel neu!{RESET}")
     intro()
 
 def quit_game():
     while True:
-        confirmation = input(f"{INDENT}{YELLOW}Är du säker på att du vill avsluta?\n{INDENT}Skriv {GREEN}ja{YELLOW} eller {GREEN}nej{YELLOW}.{RESET} ")
+        confirmation = input(f"{INDENT}{YELLOW}Sind Sie sicher, dass Sie es beenden wollen?\n{INDENT}Schreib {GREEN}ja{YELLOW} oder {GREEN}nein{YELLOW}.{RESET} ").lower()
         if confirmation == "ja":
-            wprint("Stänger av spelet om fem sekunder...")
+            wprint("Ausschalten des Spiels in fünf Sekunden...")
             time.sleep(5)
             exit()
-        elif confirmation == "nej":
+        elif confirmation == "nein":
             restart()
         else:
-            wprint(f"{YELLOW}Det är inget tillgängligt kommando. Skrev du fel?{RESET}")
+            wprint(f"{YELLOW}Dieser Befehl ist nicht verfügbar. Haben Sie ihn falsch geschrieben?{RESET}")
