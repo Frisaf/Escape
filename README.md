@@ -8,6 +8,7 @@ The game has several different endings. Can you get them all?
 ## Available languages
 - English
 - Swedish
+- German
 Do you want to contribute by translating the game to another language? Feel free to open a pull request with your translations!
 
 ## How to install
