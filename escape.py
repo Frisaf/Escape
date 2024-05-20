@@ -211,14 +211,14 @@ def secret_room():
         wprint(player.current_location.description)
         command = input(f"{INDENT}{YELLOW}What do you want to do?{RESET} ").lower()
 
-        if command.startswith("move"):
+        if command.startswith("move") or command.startswith("m"):
             try:
                 direction = command.split()[1]
                 direction = alt_directions(direction)
                 player.move(direction)
             except IndexError:
                 wprint(f"{GREEN}That is not a valid command. Did you perhaps have a typo?{RESET}")
-        elif command.startswith("interact"):
+        elif command.startswith("interact") or command.startswith("i"):
             try:
                 item = command.split()[1]
                 player.interact(item)
