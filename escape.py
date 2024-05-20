@@ -60,10 +60,10 @@ class Location:
         self.directions = directions
 
 dir_aliases = {
-    "right": "r",
-    "left": "l",
-    "forwards": "f",
-    "backwards": "b"
+    "right": ["r", "right"],
+    "left": ["l", "left"],
+    "forwards": ["f", "forwards"],
+    "backwards": ["b", "backwards"]
 }
 
 def alt_directions(direction):
