@@ -31,7 +31,7 @@ def intro():
     user_name = input(f"{INDENT}{RED}NARRATOR:{YELLOW} Welcome to 'Escape!'! Let's start with your name, traveller.\n{INDENT}What's your name?{RESET} ")
     wprint(f"{RED}NARRATOR: {RESET}{YELLOW}Great! Welcome, {GREEN}{user_name}{YELLOW}! Before we start the game, there are a few things that you need to know.\nFirst of all, there are two types of commands: {GREEN}interact/i{YELLOW} and {GREEN}move/m{YELLOW}. The interact command will make you interact with things in the room. For example, if you want to interact with the apple you would type {GREEN}'interact apple'{YELLOW} or {GREEN}'i apple'{YELLOW} in the terminal and if you want to move right you would type {GREEN}'move right'{YELLOW} or {GREEN} 'm r' {YELLOW}in the terminal (other combinations of aliases are also available). Moving backwards will always lead you to the previous room if nothing else is stated. Available directions: {GREEN}right/r, left/l, forwards/f, backwards/b\n{YELLOW} Items that you can interact with are written in {CYAN}cyan{YELLOW}.\nBut with that, let's move on with the game, shall we?{RESET}")
     wprint("")
-    wprint("You wake up on a dusty room. You don't remember what happened last night. How did you even end up here? All you know is that you have to get out, and that fast.")
+    wprint("You wake up in a dusty room. You don't remember what happened last night. How did you even end up here? All you know is that you have to get out, and that fast.")
     starter()
 
 def pick_language():
