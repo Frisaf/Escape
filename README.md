@@ -17,3 +17,5 @@ Do you want to contribute by translating the game to another language? Feel free
 - Click on escape.exe in the list of files in the release.
 
 Your antivirus might flag the downloaded file. In order to run it, you need to allow it to be downloaded. The methods on how to do this might differ between different antiviruses, so please refer to other sources on how to do that. Additionally, Windows (if your OS is Windows) might also flag the file when you try to run it. In order to run it, click view more and then run anyways. You should now run the game!
+
+#### Learn more about *Escape* at https://frisaf.github.io/Escape-website/index.html
